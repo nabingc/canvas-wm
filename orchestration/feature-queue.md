@@ -16,7 +16,7 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 |---|------|-------------|---------|---------|------------|--------|
 | 0 | solution-skeleton | Solution, 4 projects, 3 test projects, Directory.Build.props, empty passing tests | §1, CLAUDE.md | all | — | done |
 | 1 | layout-tree | Layout document, nodes (desktop/split/panel), IDs, tree normalisation (flatten same-axis, single-child collapse, weight renormalise) | §2, §2.2 normalize | Core | 0 | done |
-| 2 | layout-solver | Tree → rects: weights layout, minimum-aware distribution, range entries, memoisation | §2.1 | Core | 1 | pending |
+| 2 | layout-solver | Tree → rects: weights layout, minimum-aware distribution, range entries, memoisation | §2.1 | Core | 1 | done |
 | 3 | docking | Remove panel, insert beside (edge table), insert at seam, dock | §2.2 dock | Core | 1 | pending |
 | 4 | new-window-placement | placeNew anchor choice + right/bottom rule; dwindle rebuild | §2.2 | Core | 2, 3 | pending |
 | 5 | directional-focus | Neighbour search + scoring; move-toward effect | §2.3 | Core | 2 | pending |
@@ -31,6 +31,8 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 14 | win32-parking | Off-screen parking + crash-safe restore journal | §3.0 | Win32 | 6, 11 | pending |
 | 15 | camera-projection | World↔screen projection, camera curve, step in/out, history, saved views | §3 | Core/Engine | 13 | pending |
 | 16 | overview-thumbnails | Overview/camera motion with DWM thumbnails; land and write real frames | §3 | Win32/Engine | 15 | pending |
+| 17 | layout-metrics | Per-node minimum provider for minimum-aware solving: gap, floor/fixed minimum, squeeze, learned per-app minimum, tab-strip allowance, cap at current size | §2.1, findings/layout-solver.md rules 31–34 | Core/Engine | 2, 8, 9 | pending |
+| 18 | seam-drag-bounds | Seam drag / live-resize bounds computed with minimum-aware solving | §2.1 | Core | 2, 17 | pending |
 
 Open research items (not yet features): `trelliswm://` commands, the private
 connection property, scroll-zoom modifier, park-small factor.
