@@ -18,8 +18,8 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 1 | layout-tree | Layout document, nodes (desktop/split/panel), IDs, tree normalisation (flatten same-axis, single-child collapse, weight renormalise) | §2, §2.2 normalize | Core | 0 | done |
 | 2 | layout-solver | Tree → rects: weights layout, minimum-aware distribution, range entries, memoisation | §2.1 | Core | 1 | done |
 | 3 | docking | Remove panel, insert beside (edge table), insert at seam, dock | §2.2 dock | Core | 1 | done |
-| 4 | new-window-placement | placeNew anchor choice + right/bottom rule; dwindle rebuild | §2.2 | Core | 2, 3 | pending |
-| 5 | directional-focus | Neighbour search + scoring; move-toward effect | §2.3 | Core | 2 | pending |
+| 4 | new-window-placement | placeNew anchor choice + right/bottom rule; dwindle rebuild | §2.2 | Core | 2, 3 | done |
+| 5 | directional-focus | Neighbour search + scoring; move-toward effect | §2.3 | Core | 2 | done |
 | 6 | park-geometry | Park size and position candidates scored against displays; parked detection | §3.0 | Core | 2 | pending |
 | 7 | shortcut-model | 12 actions + saved views, configurable bindings, Windows default mapping (AltGr-safe option) | §3.2 | Core | 0 | pending |
 | 8 | tuning-constants | `Feel`-equivalent settings record with documented defaults | §3.1 | Core | 0 | pending |
@@ -36,6 +36,7 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 19 | slot-restore | Insert a panel into a remembered slot; redock a window to its remembered place | §2.2, findings/docking.md | Core | 3 | pending |
 | 20 | tab-grouping | Tab/untab windows into a panel, split off a tab, regroup; panel id rules after tab edits | §2.2, findings/layout-tree.md A13 | Core | 1, 3 | pending |
 | 21 | drop-hit-testing | Pointer → dock target (panel edge / seam / desktop) during drag | §2.2, findings/docking.md | Core | 2, 3 | pending |
+| 22 | floating-panels | Float a window/panel (default rect and size), unfloat, z-order; the float branch of placeNew | §2.2, findings/new-window-placement.md | Core | 1 | pending |
 
 Open research items (not yet features): `trelliswm://` commands, the private
 connection property, scroll-zoom modifier, park-small factor.
