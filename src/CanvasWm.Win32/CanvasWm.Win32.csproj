@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CanvasWm.Core\CanvasWm.Core.csproj" />
+    <ProjectReference Include="..\CanvasWm.Engine\CanvasWm.Engine.csproj" />
+  </ItemGroup>
+</Project>

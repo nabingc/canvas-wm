@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "rea": {
+      "command": "/Users/niravdarji/.nvm/versions/node/v24.18.0/bin/node",
+      "args": ["/Users/niravdarji/Documents/rea/scripts/rea.mjs", "mcp"],
+      "env": {
+        "REA_HOPPER_STARTUP_TIMEOUT_MS": "300000"
+      }
+    }
+  }
+}

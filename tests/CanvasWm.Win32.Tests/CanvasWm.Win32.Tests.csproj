@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <!-- SPEC-ASSUMPTION A4: skip as a test project off-Windows so dotnet test on the Mac does not launch a Windows host. -->
+    <IsTestProject Condition="!$([MSBuild]::IsOSPlatform('Windows'))">false</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CanvasWm.Win32\CanvasWm.Win32.csproj" />
+    <ProjectReference Include="..\..\src\CanvasWm.Engine\CanvasWm.Engine.csproj" />
+    <ProjectReference Include="..\..\src\CanvasWm.Core\CanvasWm.Core.csproj" />
+  </ItemGroup>
+</Project>

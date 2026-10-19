@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CanvasWm.Core\CanvasWm.Core.csproj" />
+    <ProjectReference Include="..\CanvasWm.Engine\CanvasWm.Engine.csproj" />
+    <ProjectReference Include="..\CanvasWm.Win32\CanvasWm.Win32.csproj" />
+  </ItemGroup>
+</Project>

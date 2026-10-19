@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CanvasWm.Core/CanvasWm.Core.csproj" />
+    <Project Path="src/CanvasWm.Engine/CanvasWm.Engine.csproj" />
+    <Project Path="src/CanvasWm.Win32/CanvasWm.Win32.csproj" />
+    <Project Path="src/CanvasWm.App/CanvasWm.App.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CanvasWm.Core.Tests/CanvasWm.Core.Tests.csproj" />
+    <Project Path="tests/CanvasWm.Engine.Tests/CanvasWm.Engine.Tests.csproj" />
+    <Project Path="tests/CanvasWm.Win32.Tests/CanvasWm.Win32.Tests.csproj" />
+  </Folder>
+</Solution>
