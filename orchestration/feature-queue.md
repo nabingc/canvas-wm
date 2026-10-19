@@ -14,7 +14,7 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 
 | # | Slug | Description | Study § | Project | Depends on | Status |
 |---|------|-------------|---------|---------|------------|--------|
-| 0 | solution-skeleton | Solution, 4 projects, 3 test projects, Directory.Build.props, empty passing tests | §1, CLAUDE.md | all | — | awaiting-windows |
+| 0 | solution-skeleton | Solution, 4 projects, 3 test projects, Directory.Build.props, empty passing tests | §1, CLAUDE.md | all | — | done |
 | 1 | layout-tree | Layout document, nodes (desktop/split/panel), IDs, tree normalisation (flatten same-axis, single-child collapse, weight renormalise) | §2, §2.2 normalize | Core | 0 | pending |
 | 2 | layout-solver | Tree → rects: weights layout, minimum-aware distribution, range entries, memoisation | §2.1 | Core | 1 | pending |
 | 3 | docking | Remove panel, insert beside (edge table), insert at seam, dock | §2.2 dock | Core | 1 | pending |
