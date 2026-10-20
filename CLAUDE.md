@@ -45,6 +45,10 @@ tests/CanvasWm.Win32.Tests    net10.0-windows xUnit, runs only on Windows
 - Win32 must not contain layout or policy decisions; it adapts the OS.
 - Geometry in Core uses device-independent units (`double`), y-down, origin
   top-left of the virtual desktop.
+- Mixed-DPI mapping (project-wide): each monitor keeps its physical top-left
+  and is scaled by its own DPI only within its bounds; a window uses its
+  nearest monitor's DPI. All Win32/App code converts via
+  `CanvasWm.Win32.Coordinates.DipSpace` (specs/win32-window-enum.md A8).
 
 ## Commands (Mac)
 

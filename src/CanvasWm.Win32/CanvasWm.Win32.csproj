@@ -1,7 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="CanvasWm.Win32.Tests" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CanvasWm.Core\CanvasWm.Core.csproj" />
     <ProjectReference Include="..\CanvasWm.Engine\CanvasWm.Engine.csproj" />

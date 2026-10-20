@@ -158,8 +158,9 @@ public sealed record OsWindowFacts
     public CloakKind Cloak { get; init; }
     /// <summary>Minimised (Windows: IsIconic).</summary>
     public bool IsMinimized { get; init; }
-    /// <summary>Exclusive or borderless full screen (Windows: frame equals its monitor's full rect
-    /// and no caption). A maximised window is NOT full screen.</summary>
+    /// <summary>Exclusive or borderless full screen (Windows: frame covers its monitor's full rect,
+    /// no caption, not maximised — per specs/win32-window-enum.md). A maximised window is NOT
+    /// full screen.</summary>
     public bool IsFullScreen { get; init; }
     /// <summary>The window's thread is not responding (Windows: IsHungAppWindow).</summary>
     public bool IsHung { get; init; }
