@@ -1,4 +1,5 @@
 using System.Text;
+using CanvasWm.Core;
 using CanvasWm.Core.Geometry;
 using CanvasWm.Core.Layout;
 using CanvasWm.Core.Parking;
@@ -23,6 +24,9 @@ public sealed partial class DisplayEngine
     private SavedDisplay? _saved;
     private bool _inCall;
     private bool _delivering;
+    private bool _changeRequested;
+    private readonly Dictionary<WindowKey, WriterRecord> _writer = new();
+    private Tuning _tuning = Tuning.Default;
     private Action? _onChange;
     private Action<bool>? _onNeedsFrames;
     private Action<ManagedWindow, bool>? _onHandOff;
@@ -199,7 +203,7 @@ public sealed partial class DisplayEngine
 
     // ---------- internal extension points ----------
 
-    /// <summary>Incremented by ReleaseAll and Suspend; later features' pending frame-write
+    /// <summary>Incremented by ReleaseAll, Suspend and re-land; pending frame-write
     /// sequences compare it and abandon themselves when it changed.</summary>
     internal int PlacementGeneration { get; private set; }
 
@@ -268,6 +272,8 @@ public sealed partial class DisplayEngine
         if (IsStarted) return;
         foreach (var w in windows) Register(w);
         _saved = Services.Displays.Load(Key) ?? new SavedDisplay(LayoutDocument.Empty);
+        Document = _saved.Document;
+        FramedNodeId = _saved.FramedNodeId;
         IsStarted = true;
         Render();
         Save0();
@@ -331,6 +337,7 @@ public sealed partial class DisplayEngine
 
         foreach (var m in _windows) Services.Capture.Stop(m.Info.Key);
         _windows.Clear();
+        _writer.Clear();
         // SPEC-ASSUMPTION A18: ReleaseAll clears the away table.
         _away.Clear();
         _lastFocused.Clear();
@@ -526,6 +533,7 @@ public sealed partial class DisplayEngine
         else
         {
             _windows.Add(new ManagedWindow(info, false, null));
+            _writer[info.Key] = new WriterRecord();
             // SPEC-ASSUMPTION A17: capture starts when a window is first registered.
             Services.Capture.Start(info.Key);
         }
@@ -553,6 +561,7 @@ public sealed partial class DisplayEngine
         var record = _windows[i];
         if (IsStarted && temporary) _away[key] = record.RememberedSpot;
         _windows.RemoveAt(i);
+        _writer.Remove(key);
         if (record.Parked) WriteBackOnScreen(record);
         Services.Capture.Stop(key);
         if (FocusedKey == key) FocusedKey = null;
@@ -582,7 +591,9 @@ public sealed partial class DisplayEngine
     private void Reframe()
     {
         ReframeCount++;
-        Render();
+        // SPEC-ASSUMPTION A10: re-frame now presents (direct at rest, else re-land).
+        if (IsStarted && !IsSuspended) PresentLayout();
+        else Render();
     }
 
     private void Render()
@@ -628,6 +639,14 @@ public sealed partial class DisplayEngine
     private void Run(Action body)
     {
         EnsureNotInCallback();
+        // Nested internal calls do not open a second wrapper.
+        if (_inCall)
+        {
+            body();
+            return;
+        }
+
+        _changeRequested = false;
         var before = Snapshot();
         _inCall = true;
         try
@@ -636,7 +655,7 @@ public sealed partial class DisplayEngine
             var after = Snapshot();
             if (before.Item1 != after.Item1 || before.Item2 != after.Item2 || before.Item3 != after.Item3
                 || before.Item4 != after.Item4 || before.Item5 != after.Item5
-                || !before.Item6.SetEquals(after.Item6))
+                || !before.Item6.SetEquals(after.Item6) || _changeRequested)
             {
                 Enqueue(() => _onChange?.Invoke());
             }
@@ -649,6 +668,7 @@ public sealed partial class DisplayEngine
         finally
         {
             _inCall = false;
+            _changeRequested = false;
         }
 
         Deliver();

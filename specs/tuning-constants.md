@@ -31,7 +31,7 @@ Out of scope:
 - **Park geometry constants** (sliver 1, reach 60, tolerance 1, visible
   threshold 0.05, small divisor 3). These stay in `ParkOptions` (#6).
 - **Pure algorithm literals** that are not tuning constants (findings rule 6):
-  camera fallback step 0.016 s, tween exponent 5, refusal factor 0.9, zoom
+  camera fallback step 0.016 s, tween exponent 5, refusal factor 0.8 (corrected per findings/engine-frame-writer.md), zoom
   request 0.92/0.90 and 100/60, reveal suppression 1 s on close-quiet and
   window focus, on-stage 0.995, fits slack 0.5, park visible fraction 0.05,
   settle delay `CoverFade + 0.02`, start-when-captured deadline 1 s. These
