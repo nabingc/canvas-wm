@@ -10,7 +10,7 @@ public sealed class StubsArchitectureTests
 {
     private static readonly string[] StubSigs =
     {
-        "Move(Edge)", "ArrangeAll()", "FloatAll()", "ToggleDocked(WindowKey)", "SplitForNewWindow(WindowKey)",
+        "FloatAll()", "ToggleDocked(WindowKey)", "SplitForNewWindow(WindowKey)",
         "ToggleMaximize(WindowKey)", "NativePointerDragged(Point)", "NativeMouseUp(Point)",
         "ShowEverything()", "StepOut()", "StepIn(Point)", "StepInto(String)", "Back()", "Forward()",
         "ZoomIn(Point)", "ZoomOut()", "ZoomInto(String)", "GoToFraming(Int32)", "SaveFraming(Int32)",
@@ -29,17 +29,21 @@ public sealed class StubsArchitectureTests
     {
         var actual = typeof(DisplayEngine).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
             .Select(Sig).ToHashSet();
-        Assert.Equal(33, StubSigs.Length);
+        Assert.Equal(31, StubSigs.Length); // migrated for #27 (AC32): Move/ArrangeAll are no longer stubs
+        Assert.Contains("Move(Edge)", actual);
+        Assert.Contains("ArrangeAll()", actual);
         foreach (var s in StubSigs) Assert.Contains(s, actual);
 
         var r = new Rig().StartWith(W("w1"));
+        r.Clock.Advance(1); // migrated for #27 (AC32): recipe R step 2, let the start landing settle
+        r.Win.Pump();
         r.E.WindowFocused(K("w1"));
         r.Log.Clear();
         var snap = r.Snap();
         var k = K("w1");
         var pt = new Point(3, 4);
         var e = r.E;
-        e.Move(Edge.Left); e.ArrangeAll(); e.FloatAll(); e.ToggleDocked(k); e.SplitForNewWindow(k);
+        e.FloatAll(); e.ToggleDocked(k); e.SplitForNewWindow(k);
         e.ToggleMaximize(null); e.ToggleMaximize(k); e.NativePointerDragged(pt); e.NativeMouseUp(pt);
         e.ShowEverything(); e.StepOut(); e.StepIn(pt); e.StepInto(null!); e.Back(); e.Forward();
         e.ZoomIn(null); e.ZoomIn(pt); e.ZoomOut(); e.ZoomInto("n"); e.GoToFraming(5); e.SaveFraming(-3);

@@ -32,6 +32,8 @@ internal sealed class WriterRecord
     public Size? Minimum { get; set; }
     public Size? Maximum { get; set; }
     public Size? Natural { get; set; }
+    public double LastFocused { get; set; } = double.NegativeInfinity;
+    public List<double> SnapBackTimes { get; } = new();
 
     public FrameWriterState Snapshot() =>
         new(Requested, WritesInFlight, PendingRechecks, Expected.ToImmutableArray(),

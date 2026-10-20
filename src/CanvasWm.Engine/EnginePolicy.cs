@@ -17,8 +17,11 @@ public sealed record EnginePolicy
     public bool SqueezeBelowMinimum { get; init; } = false;
     /// <summary>Share a removed tile's space with all siblings (true) or give it to the neighbour (false). Default true.</summary>
     public bool ShareRemovedSpace { get; init; } = true;
-    /// <summary>Maximum number of tiled windows; null = no cap. Default null.</summary>
-    public int? MaxDockedTiles { get; init; } = null;
+    // no tile cap (human decision)
+    /// <summary>A new window that cannot go anywhere else floats onto the empty desktop area
+    /// when that area is visible and large enough, instead of being tiled. Default false
+    /// (new windows always tile). Never applies at start. Not a relayout trigger.</summary>
+    public bool FloatNewWindowsOnDesktop { get; init; } = false;
     /// <summary>Collapse very small groups. Default true.</summary>
     public bool CollapseSmallGroups { get; init; } = true;
     /// <summary>A single floating window takes the desktop. Default true.</summary>

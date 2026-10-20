@@ -7,11 +7,12 @@ namespace CanvasWm.Engine;
 // SPEC-ASSUMPTION A19: GesturePhase includes Cancelled (see GesturePhase).
 public sealed partial class DisplayEngine
 {
-    /// <summary>Focus and frame the neighbour on that side. (#13)</summary>
-    public void Move(Edge toward) => EnsureNotInCallback();
+    /// <summary>Frame the neighbouring tile on that side of the framed node (or of the focused window's tile when nothing is framed).</summary>
+    /// <param name="toward">The side to move toward.</param>
+    public void Move(Edge toward) => Run(() => MoveCore(toward));
 
-    /// <summary>Rebuild the tiling from all windows. (#13)</summary>
-    public void ArrangeAll() => EnsureNotInCallback();
+    /// <summary>Rebuild the tiling as a spiral of all dockable windows in front-to-back order and frame nothing.</summary>
+    public void ArrangeAll() => Run(ArrangeAllCore);
 
     /// <summary>Float every window. (#13)</summary>
     public void FloatAll() => EnsureNotInCallback();

@@ -270,13 +270,7 @@ public sealed partial class DisplayEngine
     {
         ValidateList(windows);
         if (IsStarted) return;
-        foreach (var w in windows) Register(w);
-        _saved = Services.Displays.Load(Key) ?? new SavedDisplay(LayoutDocument.Empty);
-        Document = _saved.Document;
-        FramedNodeId = _saved.FramedNodeId;
-        IsStarted = true;
-        Render();
-        Save0();
+        StartCore(windows);
     });
 
     /// <summary>Freezes the engine: no window events are processed until Resume.</summary>
@@ -400,9 +394,7 @@ public sealed partial class DisplayEngine
         ArgumentNullException.ThrowIfNull(key);
         int i = IndexOf(key);
         if (IsSuspended || i < 0) return;
-        FocusedKey = key;
-        _lastFocused[_windows[i].Info.ProcessId] = key;
-        Render();
+        FocusedCore(key, i);
     });
 
     /// <summary>A window's frame changed.</summary>
@@ -413,7 +405,7 @@ public sealed partial class DisplayEngine
         ArgumentNullException.ThrowIfNull(key);
         int i = IndexOf(key);
         if (IsSuspended || i < 0) return;
-        _windows[i] = _windows[i] with { Info = _windows[i].Info with { Frame = frame } };
+        MovedCore(key, i, frame);
     });
 
     /// <summary>A window's title changed.</summary>
@@ -550,8 +542,7 @@ public sealed partial class DisplayEngine
         if (IsSuspended) return;
         Register(info);
         if (!IsStarted) return;
-        Save0();
-        Render();
+        AddedCore(info);
     }
 
     private void RemoveCore(WindowKey key, bool temporary)
@@ -559,7 +550,15 @@ public sealed partial class DisplayEngine
         int i = IndexOf(key);
         if (i < 0) return;
         var record = _windows[i];
+        // SPEC-ASSUMPTION M19: a temporary removal removes the panel like a close; the away table keeps the record's (normally null) RememberedSpot.
         if (IsStarted && temporary) _away[key] = record.RememberedSpot;
+        LayoutDocument? removed = null;
+        if (IsStarted)
+        {
+            CloseQuietUntil = Services.Clock.Now + WindowEvents.CloseQuietSeconds;
+            removed = RemoveView(Document, key);
+        }
+
         _windows.RemoveAt(i);
         _writer.Remove(key);
         if (record.Parked) WriteBackOnScreen(record);
@@ -571,6 +570,12 @@ public sealed partial class DisplayEngine
         }
 
         if (!IsStarted) return;
+        if (removed is not null && removed != Document)
+        {
+            Commit(removed, null);
+            return;
+        }
+
         Save0();
         Render();
     }
@@ -585,7 +590,11 @@ public sealed partial class DisplayEngine
     private void Save0()
     {
         // SPEC-ASSUMPTION A11: Save is a no-op until Start has loaded the record.
-        if (_saved is not null) Services.Displays.Save(Key, _saved);
+        if (_saved is null) return;
+        // SPEC-ASSUMPTION A14: no key is filtered out of the saved copy.
+        var framings = _saved.Framings.ToDictionary(kv => kv.Key, kv => (IReadOnlyList<string>)kv.Value);
+        Services.Displays.Save(Key, new SavedDisplay(Document, FramedNodeId, framings, _saved.Owners,
+            _saved.DockSpots, _saved.FloatSizes));
     }
 
     private void Reframe()

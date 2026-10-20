@@ -100,14 +100,17 @@ public sealed class LifecycleTests
         Assert.Equal(new[] { K("w1"), K("w2") }, r.E.Windows.Select(w => w.Info.Key));
         Assert.True(r.Cap.IsStarted(K("w1")));
         Assert.True(r.Cap.IsStarted(K("w2")));
-        Assert.Single(r.Ren.Plans);
+        // migrated for #27 (AC32): two renders during Start (start render + empty landing's LandingDone render)
+        Assert.Equal(2, r.Ren.Plans.Count);
         Assert.Equal(new RenderPlan(new[]
         {
             new WindowPlan(K("w1"), new Rect(100, 100, 800, 600), false),
             new WindowPlan(K("w2"), new Rect(5, 6, 7, 8), false),
-        }), r.Ren.Last);
-        Assert.Equal(new[] { "change" }, r.Log);
-        Assert.Equal((r.Key, new SavedDisplay(LayoutDocument.Empty)), r.Disp.SaveLog[^1]);
+        }), r.Ren.Plans[0]);
+        Assert.Equal(new[] { "change" }, r.Log); // OnChange is delivered once per call (unchanged)
+        Assert.Empty(r.Win.FocusRequests); // migrated for #27 (AC32): H4, no Focus call
+        // migrated for #27 (AC32): the last save is the live record
+        Assert.Equal((r.Key, new SavedDisplay(new LayoutDocument(new DesktopNode()))), r.Disp.SaveLog[^1]);
 
         var r2 = new Rig();
         var saved = new SavedDisplay(LayoutDocument.Empty, framedNodeId: "n1");
@@ -115,7 +118,14 @@ public sealed class LifecycleTests
         int before = r2.Disp.SaveLog.Count;
         r2.E.Start(new List<WindowInfo>());
         Assert.Equal(before + 1, r2.Disp.SaveLog.Count);
-        Assert.Equal((r2.Key, saved), r2.Disp.SaveLog[^1]);
+        // migrated for #27 (AC32): the saved record has no window keys, so it is ignored; the live record is saved
+        Assert.Equal((r2.Key, new SavedDisplay(new LayoutDocument(new DesktopNode()))), r2.Disp.SaveLog[^1]);
+
+        // migrated for #27 (AC32): a pre-saved record disjoint from w1 and w2 is ignored, same live record
+        var r3 = new Rig();
+        r3.Disp.Save(r3.Key, new SavedDisplay(new LayoutDocument(PanelNode.ForWindow("zz")), null));
+        r3.E.Start(new[] { r3.OS(W("w1")), r3.OS(W("w2", frame: new Rect(5, 6, 7, 8))) });
+        Assert.Equal((r3.Key, new SavedDisplay(new LayoutDocument(new DesktopNode()))), r3.Disp.SaveLog[^1]);
     }
 
     [Fact]

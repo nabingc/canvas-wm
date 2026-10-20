@@ -177,6 +177,8 @@ public sealed class WindowEventTests
     public void AC26_TitleAndCapture()
     {
         var r = new Rig().StartWith(W("w1"));
+        r.Clock.Advance(1); // migrated for #27 (AC32): recipe R step 2, let the start landing settle
+        r.Win.Pump();
         int plans = r.Ren.Plans.Count;
         r.E.WindowTitleChanged(K("w1"), "X");
         Assert.Equal("X", r.E.Window(K("w1"))!.Info.Title);

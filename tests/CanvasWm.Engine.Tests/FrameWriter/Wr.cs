@@ -11,7 +11,7 @@ namespace CanvasWm.Engine.Tests.FrameWriterSpec;
 internal sealed class Wr
 {
     public static readonly Rect VA = new(0, 25, 1440, 875);
-    public readonly ManualClock Clock = new(100);
+    public readonly ManualClock Clock = new(99); // migrated for #27 (AC32): recipe R step 2
     public readonly FakeWindowSystem Win = new();
     public readonly FakeCapture Cap = new();
     public readonly RecordingRenderer Ren = new();
@@ -43,7 +43,7 @@ internal sealed class Wr
     public static readonly Rect C3 = R(725, 468, 705, 422);
 
     public WindowInfo Info(string n, Rect f, bool noApp = false) =>
-        new(K(n), 1, "X", noApp ? null : App, "t", f, true);
+        new(K(n), 1, "X", noApp ? null : App, "t", f, false); // migrated for #27 (AC32): recipe R step 1
 
     /// <param name="wins">windows in registration order with known (and OS) frames.</param>
     public Wr(LayoutDocument? doc, string? framed, (string N, Rect F)[] wins, EnginePolicy? policy = null,
@@ -52,6 +52,7 @@ internal sealed class Wr
         var services = new EngineServices(Win, Cap, Clock, Ren, Lim, Disp);
         E = new DisplayEngine(Key, VA, policy ?? EnginePolicy.Default, services);
         E.DisplayFrame = new Rect(0, 0, 1440, 900);
+        E.Ids = new CanvasWm.Engine.Tests.WindowEventsSpec.SequentialIds(); // migrated for #27 (AC32)
         E.OnChange = () => Changes++;
         E.Log = s => Logs.Add(s);
         if (saved is not null) Disp.Save(Key, saved);
@@ -63,6 +64,8 @@ internal sealed class Wr
         }
 
         E.Start(infos);
+        Clock.Advance(1); // migrated for #27 (AC32): recipe R step 2
+        Win.Pump();
         if (saved is null && doc is not null) E.SetLayout(doc, framed);
         G0 = E.PlacementGeneration;
         W0 = Win.Writes.Count;

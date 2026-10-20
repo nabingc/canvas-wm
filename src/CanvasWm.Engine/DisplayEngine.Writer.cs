@@ -46,6 +46,8 @@ public sealed partial class DisplayEngine
         ArgumentNullException.ThrowIfNull(document);
         Document = document;
         FramedNodeId = framedNodeId;
+        RefreshFramedLeaves();
+        ClearZoomMemory();
     });
 
     // ---------- per-window limits and state ----------
@@ -243,6 +245,7 @@ public sealed partial class DisplayEngine
     private void LandingDone(int generation)
     {
         PlacementDone = Services.Clock.Now;
+        FocusAfterLanding();
         Phase = StagePhase.Fading;
         Render();
         Services.Clock.After(Policy.CoverFade + FrameWriting.SettleExtraSeconds,

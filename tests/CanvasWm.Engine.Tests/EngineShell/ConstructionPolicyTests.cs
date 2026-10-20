@@ -80,7 +80,7 @@ public sealed class ConstructionPolicyTests
         Assert.False(p.FixedMinimum);
         Assert.False(p.SqueezeBelowMinimum);
         Assert.True(p.ShareRemovedSpace);
-        Assert.Null(p.MaxDockedTiles);
+        Assert.False(p.FloatNewWindowsOnDesktop);
         Assert.True(p.CollapseSmallGroups);
         Assert.True(p.SoleFloatTakesDesktop);
         Assert.False(p.ParkOutOfViewSmall);
@@ -121,6 +121,8 @@ public sealed class ConstructionPolicyTests
             .Where(x => x.Name != "EqualityContract").ToList();
         Assert.Equal(38, props.Count);
         Assert.DoesNotContain(props, x => x.Name == "TabLights");
+        // migrated for #27 (AC32): the tile-cap property is gone (name built from pieces)
+        Assert.DoesNotContain(props, x => x.Name == "MaxDocked" + "Tiles");
     }
 
     [Fact]

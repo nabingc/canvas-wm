@@ -115,8 +115,12 @@ public sealed record EnginePolicy
     /// <summary>When a tile is removed, share its space with all siblings (true) or give it to the
     /// neighbour (false). Default true. Passed to Core edit calls (A9).</summary>
     public bool ShareRemovedSpace { get; init; } = true;
-    /// <summary>Maximum number of tiled windows; null = no cap. Default null.</summary>
-    public int? MaxDockedTiles { get; init; } = null;
+    /// <summary>A new window that cannot go anywhere else floats onto the empty desktop area
+    /// when that area is visible and large enough, instead of being tiled. Default false.
+    /// Added by #27 (H1).</summary>
+    public bool FloatNewWindowsOnDesktop { get; init; } = false;
+    // MaxDockedTiles: removed per human decision (licensing-related tile cap of the studied
+    // app; CanvasWM has no tile cap). See specs/engine-window-events.md C12.
     /// <summary>Collapse very small groups. Default true.</summary>
     public bool CollapseSmallGroups { get; init; } = true;
     /// <summary>A single floating window takes the desktop. Default true.</summary>
@@ -209,7 +213,9 @@ public enum ResizeCover  { None = 0, Picture = 1, Blur = 2 }
 
 Equality is the compiler-generated record equality (all instance members are
 value types or nullable value types). **38 instance properties**: the
-observed 39 fields minus the dropped `tabLights` (A6). Derived values
+observed 39 fields minus the dropped `tabLights` (A6) and minus
+`MaxDockedTiles` (removed per human decision, licensing-related; #27 C12),
+plus `FloatNewWindowsOnDesktop` (#27 C1). Derived values
 (tab-strip height, tab lead) are not part of this record (#20).
 
 ### Small types
@@ -771,7 +777,8 @@ times within `1e-9`.
   values `(int)PreviewStyle == 1`, `(int)TabStyle == 0`, `(int)ProxyScale ==
   1`, `(int)ResizeCover == 1`). Reflection: exactly 38 public instance
   properties (excluding the compiler's `EqualityContract`), none named
-  `TabLights`. (B28, A6)
+  `TabLights` or `MaxDockedTiles`; `FloatNewWindowsOnDesktop == false`
+  (updated by #27 C12). (B28, A6)
 - **AC4** [mac] `RequiresRelayout`: true for a change of `Gap` 10→12, of
   `FixedMinimum`, of `TabPadding`; false for changes of `TabTint`,
   `DimOpacity`, `ShareRemovedSpace` alone and for equal policies. (B29)

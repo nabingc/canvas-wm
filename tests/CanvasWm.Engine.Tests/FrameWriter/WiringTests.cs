@@ -119,10 +119,13 @@ public sealed class WiringTests
     {
         var saved = new SavedDisplay(L2(), "a");
         var w = new Wr(null, null, new[] { ("a", A3), ("b", R(725, 35, 705, 855)) }, saved: saved);
-        Assert.Equal(saved.Document, w.E.Document);
+        // migrated for #27 (AC32): Document is B4 applied to Sanitize(L2): desktop inserted right of root "s", split id n1
+        var expected = new LayoutDocument(LayoutEdits.InsertBeside(L2().Root, "s", new DesktopNode(), Edge.Right,
+            "n1", LayoutEdits.DefaultFraction));
+        Assert.Equal(expected, w.E.Document);
         Assert.Equal("a", w.E.FramedNodeId);
         var t = w.E.ComputeTargets();
-        Assert.Equal(T(10, 35, 1420, 855), t[K("a")]);
+        Assert.Equal(T(10, 35, 1420, 855), t[K("a")]); // migrated for #27 (AC32): targets of the new document, a framed
         Assert.Equal(P(1439, 899, 705, 855), t[K("b")]);
         Assert.Empty(w.Writes());
     }
@@ -131,7 +134,7 @@ public sealed class WiringTests
     public void AC2_document_empty_and_framed_null_before_start()
     {
         var w = new Wr(null, null, Array.Empty<(string, Rect)>());
-        Assert.Equal(LayoutDocument.Empty, w.E.Document);
+        Assert.Equal(new LayoutDocument(new DesktopNode()), w.E.Document); // migrated for #27 (AC32): Start ensures a desktop node
         Assert.Null(w.E.FramedNodeId);
     }
 

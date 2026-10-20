@@ -21,13 +21,13 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 4 | new-window-placement | placeNew anchor choice + right/bottom rule; dwindle rebuild | §2.2 | Core | 2, 3 | done |
 | 5 | directional-focus | Neighbour search + scoring; move-toward effect | §2.3 | Core | 2 | done |
 | 6 | park-geometry | Park size and position candidates scored against displays; parked detection | §3.0 | Core | 2 | done |
-| 7 | shortcut-model | 12 actions + saved views, configurable bindings, Windows default mapping (AltGr-safe option) | §3.2 | Core | 0 | pending |
+| 7 | shortcut-model | 12 actions + saved views, configurable bindings, Windows default mapping (AltGr-safe option) | §3.2 | Core | 0 | building |
 | 8 | tuning-constants | `Feel`-equivalent settings record with documented defaults | §3.1 | Core | 0 | done |
 | 9 | engine-interfaces | IWindowSystem/IClock/ICapture/IRenderer/ILimitStore/IDisplayStore + value types + fakes for tests (no IHotkeys) | §1, §5 | Engine | 0 | done |
 | 10 | win32-window-enum | Enumerate manageable windows, WinEvent hook lifecycle events | §5 | Win32 | 9 | pending |
 | 11 | win32-frame-writer | Batched DeferWindowPos, DWM border compensation, read-back + drift correction (refusal detection/retry is Engine policy, see specs/engine-interfaces.md B7) | §4, §5 | Win32 | 9 | pending |
 | 12 | win32-hotkeys | RegisterHotKey binding from shortcut-model | §3.2 | Win32 | 7, 9 | pending |
-| 13 | engine-tiling-loop | Umbrella — split into #25 engine-projection-targets, #26 engine-frame-writer, #27 engine-window-events (findings/engine-tiling-loop.md) | §2, §6 | Engine | 25, 26, 27 | blocked: split into #25–#27 |
+| 13 | engine-tiling-loop | Umbrella — split into #25 engine-projection-targets, #26 engine-frame-writer, #27 engine-window-events (findings/engine-tiling-loop.md) | §2, §6 | Engine | 25, 26, 27 | done |
 | 14 | win32-parking | Off-screen parking + crash-safe restore journal | §3.0 | Win32 | 6, 11 | pending |
 | 15 | camera-projection | World↔screen projection, camera curve, step in/out, history, saved views | §3 | Core/Engine | 27 | pending |
 | 16 | overview-thumbnails | Overview/camera motion with DWM thumbnails; land and write real frames | §3 | Win32/Engine | 15 | pending |
@@ -41,8 +41,9 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 24 | multi-display | Hand-off / carry-in / carry-out between display engines, guests, app-side engine rebuild on display-set change | §1, §5, findings/engine-inbound-api.md | Engine/App | 27, 23 | pending |
 | 25 | engine-projection-targets | Tree → screen rects (work area, half-gap insets, square stretch, edge rounding), on-stage (≥99.5%) / fits (minimum floor) classification, per-window target vs park choice (human decision, revised: too-small-on-stage parks at tile scaled up to the window minimum; off-stage parks with no minimum) | §2, §6, findings/engine-projection-targets.md | Core | 2, 6, 8 | done |
 | 26 | engine-frame-writer | Unbatched per-window writes, skip unchanged/in-flight, expected-frame echoes (1.5 s, ±2), refusal recheck (>24, 0.25 s) and min/max learning, limit-store observe, drift check, no-animation write path | §6, findings/engine-tiling-loop.md | Engine | 8, 23, 25 | done |
-| 27 | engine-window-events | start, windowAdded/Removed/Focused/Moved effects, snap-back (3 in 3 s), arrangeAll, move(toward:), save triggers. Human decisions: desktop-slot float rule behind EnginePolicy flag default OFF (always tile); nothing framed → move(toward:) starts from focused window's panel (CanvasWM deviation); no docked-tile cap | §2, §6, findings/engine-tiling-loop.md | Engine | 3, 4, 5, 26 | pending |
+| 27 | engine-window-events | start, windowAdded/Removed/Focused/Moved effects, snap-back (3 in 3 s), arrangeAll, move(toward:), save triggers. Human decisions: desktop-slot float rule behind EnginePolicy flag default OFF (always tile); nothing framed → move(toward:) starts from focused window's panel and frames the neighbour (fills screen, others park) (CanvasWM deviation); no docked-tile cap | §2, §6, findings/engine-tiling-loop.md | Engine | 3, 4, 5, 26 | done |
 | 28 | collapsed-groups | Collapse tile groups narrower/shorter than 120 while framed; collapsed panels' rects, parking with pictures | §6, findings/engine-projection-targets.md | Core | 25 | pending |
+| 29 | app-composition | App/Win32 wiring: one DisplayEngine per display (+ desktop id), WinEvent and hotkey sources → engine calls, frame tick loop, file-backed ILimitStore/IDisplayStore, tray + quit (releaseAll) | §1, §5, findings/engine-inbound-api.md | App/Win32 | 10, 11, 12, 27 | pending |
 
 Open research items (not yet features): `trelliswm://` commands,
 scroll-zoom modifier. (Private connection property resolved in `findings/engine-interfaces.md`.) (Park-small factor resolved in `findings/park-geometry.md`.)
