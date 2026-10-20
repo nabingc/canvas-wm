@@ -5,4 +5,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CanvasWm.Core\CanvasWm.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="CanvasWm.Engine.Tests" />
+  </ItemGroup>
 </Project>
