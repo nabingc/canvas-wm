@@ -21,7 +21,7 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 4 | new-window-placement | placeNew anchor choice + right/bottom rule; dwindle rebuild | §2.2 | Core | 2, 3 | done |
 | 5 | directional-focus | Neighbour search + scoring; move-toward effect | §2.3 | Core | 2 | done |
 | 6 | park-geometry | Park size and position candidates scored against displays; parked detection | §3.0 | Core | 2 | done |
-| 7 | shortcut-model | 12 actions + saved views, configurable bindings, Windows default mapping (AltGr-safe option) | §3.2 | Core | 0 | building |
+| 7 | shortcut-model | 12 actions + saved views, configurable bindings, Windows default mapping (AltGr-safe option) | §3.2 | Core | 0 | done |
 | 8 | tuning-constants | `Feel`-equivalent settings record with documented defaults | §3.1 | Core | 0 | done |
 | 9 | engine-interfaces | IWindowSystem/IClock/ICapture/IRenderer/ILimitStore/IDisplayStore + value types + fakes for tests (no IHotkeys) | §1, §5 | Engine | 0 | done |
 | 10 | win32-window-enum | Enumerate manageable windows, WinEvent hook lifecycle events | §5 | Win32 | 9 | pending |
