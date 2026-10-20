@@ -25,9 +25,14 @@ src/CanvasWm.Core      net10.0          pure model + algorithms: layout tree,
                                          park geometry, shortcut model. No I/O.
 src/CanvasWm.Engine    net10.0          state machine over Core; talks to the OS
                                          only through interfaces (IWindowSystem,
-                                         IHotkeys, IClock, ICapture, IRenderer, IStore).
+                                         IClock, ICapture, IRenderer, ILimitStore,
+                                         IDisplayStore). Inbound input (hotkeys,
+                                         window lifecycle) arrives as plain engine
+                                         method calls, not an interface.
 src/CanvasWm.Win32     net10.0-windows  implementations of those interfaces via
-                                         P/Invoke (user32, dwmapi). No layout logic.
+                                         P/Invoke (user32, dwmapi), plus hotkey and
+                                         WinEvent sources that call the engine.
+                                         No layout or policy logic.
 src/CanvasWm.App       net10.0-windows  executable: composition, tray, settings.
 tests/CanvasWm.Core.Tests     net10.0         xUnit, runs on the Mac
 tests/CanvasWm.Engine.Tests   net10.0         xUnit with fakes, runs on the Mac
