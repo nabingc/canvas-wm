@@ -41,3 +41,21 @@ internal struct NativePoint
     internal int X;
     internal int Y;
 }
+
+/// <summary>Win32 WNDCLASSEXW. The window procedure is an unmanaged function pointer, so no managed delegate exists to collect.</summary>
+[StructLayout(LayoutKind.Sequential)]
+internal unsafe struct NativeWndClassEx
+{
+    internal uint cbSize;
+    internal uint style;
+    internal delegate* unmanaged<nint, uint, nint, nint, nint> lpfnWndProc;
+    internal int cbClsExtra;
+    internal int cbWndExtra;
+    internal nint hInstance;
+    internal nint hIcon;
+    internal nint hCursor;
+    internal nint hbrBackground;
+    internal char* lpszMenuName;
+    internal char* lpszClassName;
+    internal nint hIconSm;
+}

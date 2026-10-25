@@ -4,6 +4,7 @@ using CanvasWm.Core.Frames;
 using CanvasWm.Core.Geometry;
 using CanvasWm.Engine.Services;
 using CanvasWm.Win32.Coordinates;
+using CanvasWm.Win32.Hotkeys;
 using CanvasWm.Win32.Tests.WindowEnumSpec;
 using CanvasWm.Win32.Windows;
 
@@ -116,6 +117,7 @@ public sealed class PureHelperTests
         {
             nameof(Win32WindowSource), nameof(HandleConversion), nameof(DipSpace), nameof(PixelRect),
             nameof(Win32WindowSystem), nameof(IManagedWindowMap), nameof(ManagedWindowIdentity),
+            nameof(Win32HotkeySource), nameof(Win32KeyInput),
         };
         Assert.Equal(expected.OrderBy(x => x), asm.GetExportedTypes().Select(t => t.Name).OrderBy(x => x));
         Assert.True(typeof(IWindowSystem).IsAssignableFrom(typeof(Win32WindowSystem)));

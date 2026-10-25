@@ -1241,3 +1241,7 @@ These are for the orchestrator to apply. This spec does not change them.
 | A13 | rule 11 (120 ms log), J1 (NOCOPYBITS), J5, G4 |
 | A17, Placement (Core) | §P recommended split |
 | A19 | rule 6 |
+
+## Amendments from #12 (win32-hotkeys, R2)
+
+- AC12's exact public type list also gains `CanvasWm.Win32.Hotkeys.Win32HotkeySource` and `CanvasWm.Win32.Hotkeys.Win32KeyInput`.

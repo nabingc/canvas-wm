@@ -89,7 +89,7 @@ public enum Key
     /// <summary>Deletes forwards (the "Forward-Delete" role).</summary>
     Delete = 84,
     Escape = 85, Insert = 86, Home = 87, End = 88, PageUp = 89, PageDown = 90,
-    /// <summary>US-layout punctuation positions; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation keys that type these characters on the US layout, identified by key code, not position (#12 B1).</summary>
     Minus = 100, Equals = 101, LeftBracket = 102, RightBracket = 103, Backslash = 104,
     Semicolon = 105, Quote = 106, Comma = 107, Period = 108, Slash = 109, Backquote = 110,
 }
@@ -1112,3 +1112,7 @@ Modifiers.Alt`, `WCA = Modifiers.Win | Modifiers.Ctrl | Modifiers.Alt`, and
 | B27–B31, AC25–AC29, A3, A10, A11 | 21, 22 (shape kept, codes replaced) |
 | B10–B13, AC7–AC11, A1, A2, A13 | 23 + findings "Windows notes" (modifier mapping, AltGr, reserved combos) + human decisions (Win+Alt profile; WinAlt view sets Win+Alt+Shift / Win+Ctrl+Alt) |
 | Out of scope | 24, 25, 26, 27 |
+
+## Amendments from #12 (win32-hotkeys, R1)
+
+- `Key` punctuation members are the keys that type these characters on the US layout, identified by key code (VK_OEM_*), not physical position; see specs/win32-hotkeys.md B1 and table B20. The "by US position" wording in "Notes for #12" is superseded.

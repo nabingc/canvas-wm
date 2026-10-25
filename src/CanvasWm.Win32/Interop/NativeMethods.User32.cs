@@ -131,4 +131,35 @@ internal static unsafe partial class NativeMethods
 
     [LibraryImport(User32)]
     internal static partial int GetSystemMetrics(int nIndex);
+
+    [LibraryImport(User32, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool RegisterHotKey(nint hWnd, int id, uint fsModifiers, uint vk);
+
+    [LibraryImport(User32, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool UnregisterHotKey(nint hWnd, int id);
+
+    [LibraryImport(User32, EntryPoint = "RegisterClassExW", SetLastError = true)]
+    internal static partial ushort RegisterClassExW(NativeWndClassEx* lpwcx);
+
+    [LibraryImport(User32, EntryPoint = "CreateWindowExW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial nint CreateWindowExW(uint dwExStyle, string lpClassName, string? lpWindowName, uint dwStyle,
+        int x, int y, int nWidth, int nHeight, nint hWndParent, nint hMenu, nint hInstance, nint lpParam);
+
+    [LibraryImport(User32, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool DestroyWindow(nint hWnd);
+
+    [LibraryImport(User32, EntryPoint = "DefWindowProcW")]
+    internal static partial nint DefWindowProcW(nint hWnd, uint msg, nint wParam, nint lParam);
+
+    [LibraryImport(User32)]
+    internal static partial short GetKeyState(int nVirtKey);
+
+    [LibraryImport(User32)]
+    internal static partial nint GetKeyboardLayout(uint idThread);
+
+    [LibraryImport(User32, EntryPoint = "MapVirtualKeyExW")]
+    internal static partial uint MapVirtualKeyExW(uint uCode, uint uMapType, nint dwhkl);
 }

@@ -27,4 +27,7 @@ internal static unsafe partial class NativeMethods
 
     [LibraryImport(Kernel32)]
     internal static partial nint GetCurrentProcess();
+
+    [LibraryImport(Kernel32, EntryPoint = "GetModuleHandleW", StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial nint GetModuleHandleW(string? lpModuleName);
 }

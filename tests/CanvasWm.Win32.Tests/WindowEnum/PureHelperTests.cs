@@ -259,11 +259,13 @@ public sealed class PureHelperTests
     {
         Assembly asm = typeof(Win32WindowSource).Assembly;
         string[] names = asm.GetExportedTypes().Select(t => t.FullName!).OrderBy(n => n, StringComparer.Ordinal).ToArray();
-        // Seven types since #11 (win32-frame-writer spec, earlier-spec change (c)).
+        // Seven types since #11 (win32-frame-writer spec, earlier-spec change (c)); nine since #12 (win32-hotkeys R2).
         string[] expected =
         [
             "CanvasWm.Win32.Coordinates.DipSpace",
             "CanvasWm.Win32.Coordinates.PixelRect",
+            "CanvasWm.Win32.Hotkeys.Win32HotkeySource",
+            "CanvasWm.Win32.Hotkeys.Win32KeyInput",
             "CanvasWm.Win32.Windows.HandleConversion",
             "CanvasWm.Win32.Windows.IManagedWindowMap",
             "CanvasWm.Win32.Windows.ManagedWindowIdentity",

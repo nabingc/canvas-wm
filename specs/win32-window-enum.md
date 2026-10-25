@@ -1098,3 +1098,8 @@ Count:
 - C1: `DipSpace` gains `ToPixels` and a point `ToDip` (additive).
 - AC4: `WindowKey` removed from the first pattern; AC15: public type list grows to seven.
 - `NativeMethods` user32 doc reworded (C2); `FactGatherer` frame reading moves to `WindowGeometry.ReadDipFrame` with no behaviour change (C4).
+
+## Amendments from #12 (win32-hotkeys, R2/R3)
+
+- AC15's exact public type list also gains `CanvasWm.Win32.Hotkeys.Win32HotkeySource` and `CanvasWm.Win32.Hotkeys.Win32KeyInput`.
+- B1's entry-point list covers fact gathering and events; #12 adds hotkey entry points under the same LibraryImport style rules. No change to #10 behaviour.

@@ -65,4 +65,26 @@ internal static class NativeConstants
     internal const int SM_SWAPBUTTON = 23;
     internal const int VK_LBUTTON = 0x01;
     internal const int VK_RBUTTON = 0x02;
+
+    // Hotkeys (#12).
+    internal const uint MOD_ALT = 0x0001;
+    internal const uint MOD_CONTROL = 0x0002;
+    internal const uint MOD_SHIFT = 0x0004;
+    internal const uint MOD_WIN = 0x0008;
+    internal const uint MOD_NOREPEAT = 0x4000;
+    internal const uint WM_HOTKEY = 0x0312;
+    internal const uint WM_KEYDOWN = 0x0100;
+    internal const uint WM_SYSKEYDOWN = 0x0104;
+    internal static readonly nint HWND_MESSAGE = -3;
+    internal const int IDHOT_SNAPWINDOW = -1;
+    internal const int IDHOT_SNAPDESKTOP = -2;
+    internal const int ERROR_HOTKEY_ALREADY_REGISTERED = 1409;
+    internal const int ERROR_CLASS_ALREADY_EXISTS = 1410;
+    internal const uint MAPVK_VK_TO_CHAR = 2;
+    internal const uint MAPVK_VK_TO_VSC_EX = 4;
+    internal const int VK_SHIFT = 0x10;
+    internal const int VK_CONTROL = 0x11;
+    internal const int VK_MENU = 0x12;
+    internal const int VK_LWIN = 0x5B;
+    internal const int VK_RWIN = 0x5C;
 }

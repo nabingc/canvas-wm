@@ -155,26 +155,26 @@ public enum Key
     PageUp = 89,
     /// <summary>The PageDown key.</summary>
     PageDown = 90,
-    /// <summary>US-layout punctuation position Minus; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "-" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Minus = 100,
-    /// <summary>US-layout punctuation position Equals; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "=" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Equals = 101,
-    /// <summary>US-layout punctuation position LeftBracket; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "[" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     LeftBracket = 102,
-    /// <summary>US-layout punctuation position RightBracket; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "]" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     RightBracket = 103,
-    /// <summary>US-layout punctuation position Backslash; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "\" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Backslash = 104,
-    /// <summary>US-layout punctuation position Semicolon; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types ";" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Semicolon = 105,
-    /// <summary>US-layout punctuation position Quote; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "'" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Quote = 106,
-    /// <summary>US-layout punctuation position Comma; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "," on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Comma = 107,
-    /// <summary>US-layout punctuation position Period; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "." on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Period = 108,
-    /// <summary>US-layout punctuation position Slash; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "/" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Slash = 109,
-    /// <summary>US-layout punctuation position Backquote; the character printed may differ on other layouts.</summary>
+    /// <summary>The punctuation key that types "`" on the US layout. It is identified by the key code the layout gives it, not by its position: on other layouts it may be a different physical key, type a different character, or be absent.</summary>
     Backquote = 110,
 }
