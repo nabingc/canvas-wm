@@ -1073,3 +1073,7 @@ verified when the App and Win32 features land.
 | B42, AC33, A15 | 6, 21, 26 (render) |
 | B44, AC32, A19 | 29, 30 |
 | AC34 | CLAUDE.md architecture; engine-interfaces AC28; 24 (gate/lessons excluded) |
+
+## Amendments from #32 (engine-router)
+
+- `DisplayEngine` gains `FocusLeftWindows(int processId)`: placeholder (human decision) — clears `FocusedKey` only; ignored while suspended; keeps the re-entry guard; fires `OnChange`; no render or save. See specs/engine-router.md.

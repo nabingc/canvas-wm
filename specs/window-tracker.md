@@ -1322,3 +1322,7 @@ Count: **30 [mac]** (AC1–AC30), **0 [windows]**.
 | B22, AC27 | I1 (unhook on shutdown) |
 | B23, B24, AC29 | K (fake seam) |
 | AC30 | CLAUDE.md architecture; K split |
+
+## Amendments from #32 (engine-router)
+
+- `WindowTracker` gains `IdentityOf(WindowKey) → TrackedIdentity(ulong Handle, int ProcessId, int ThreadId)?` and `KeyOf(ulong handle) → WindowKey?` (null for handle 0), so the App can build `IManagedWindowMap`. See specs/engine-router.md.

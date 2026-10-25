@@ -210,6 +210,7 @@ public sealed class HygieneTests
         "Void CaptureArrived(CanvasWm.Engine.Services.WindowKey)",
         "Void EndRectZoom(CanvasWm.Core.Geometry.Point)",
         "Void FloatAll()",
+        "Void FocusLeftWindows(Int32)", // migrated for #32 (FocusLeftWindows, B40)
         "Void ForgetFraming(Int32)",
         "Void Forward()",
         "Void GoToFraming(Int32)",

@@ -93,6 +93,31 @@ public sealed class WindowTracker : IDisposable
     /// <returns>The info or null.</returns>
     public WindowInfo? Find(WindowKey key) => FindRecord(key)?.Info;
 
+    /// <summary>Identity of the tracked window with this key, or null if not tracked (B41).</summary>
+    /// <param name="key">The window key.</param>
+    /// <returns>The identity or null.</returns>
+    /// <exception cref="ArgumentNullException">key is null.</exception>
+    public TrackedIdentity? IdentityOf(WindowKey key)
+    {
+        ArgumentNullException.ThrowIfNull(key);
+        Record? r = FindRecord(key);
+        return r is null ? null : new TrackedIdentity(r.Handle, r.Info.ProcessId, r.ThreadId);
+    }
+
+    /// <summary>Key of the tracked window with this handle, or null if not tracked or 0 (B42).</summary>
+    /// <param name="handle">The OS handle.</param>
+    /// <returns>The key or null.</returns>
+    public WindowKey? KeyOf(ulong handle)
+    {
+        if (handle == 0) return null;
+        foreach (Record r in _records)
+        {
+            if (r.Handle == handle) return KeyFor(handle);
+        }
+
+        return null;
+    }
+
     /// <summary>Subscribe, run the initial full scan, raise Ready, arm the rescan timer.
     /// Second call: no-op.</summary>
     /// <exception cref="ObjectDisposedException">After Dispose.</exception>

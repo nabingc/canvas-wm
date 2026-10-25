@@ -481,6 +481,16 @@ public sealed partial class DisplayEngine
         if (FramesRunning && !NeedsFrames) SetFramesRunning(false);
     });
 
+    /// <summary>Focus moved to an unmanaged window (or none) of processId. PLACEHOLDER until the
+    /// studied effect is known: clears FocusedKey only.</summary>
+    /// <param name="processId">The process (not used by the placeholder).</param>
+    public void FocusLeftWindows(int processId) => Run(() =>
+    {
+        // PLACEHOLDER (engine-router B40): replace once the studied effect is traced.
+        if (IsSuspended) return;
+        FocusedKey = null;
+    });
+
     /// <summary>Re-render (for example after a settings change).</summary>
     public void Redraw() => Run(Render);
 
