@@ -93,7 +93,8 @@ and the split note at the end.
     - The adapter remembers the last requested target and increments a
       per-window "writes in flight" counter (used to recognise self-caused
       move notifications; Inferred).
-    - If the target is mostly off-screen (visible fraction below about 0.1),
+    - If the target is mostly off-screen (visible fraction below 0.05 — corrected per
+      findings/win32-frame-writer.md rule 2; was "about 0.1"),
       the write is flagged as an off-screen/park write; the macOS write path
       then re-pushes position if the window still shows more than 2 % after
       the write (corrects the study §4 description of the 0.02 constant;

@@ -452,10 +452,24 @@ must not change the behaviour below.
   have no ordering guarantee.
 - **B7 (actual frame).** A write's result is the frame **read back after**
   the write, in DIPs, using the same frame convention as `ReadFrame` (on
-  Windows: extended frame bounds, #11). The adapter never adjusts, retries or
-  judges it; a clamped or ignored write simply returns the actual frame.
-  Null means: key unknown at the time the operation runs, the window vanished,
-  access was denied (e.g. elevated window), or the read-back failed.
+  Windows: extended frame bounds, #11). Inside one write the adapter may
+  perform exactly these two fixed mechanical steps, each decided only by
+  the pure predicates of `CanvasWm.Core.Frames.FrameSettle`, and no others:
+  (a) **settle pass** — if the read-back differs from the target by more
+  than `FrameSettle.Tolerance` (1.0) on any of X, Y, Width, Height, write
+  size and position once more and read back again; the second reading is
+  the result (the first if the second write or read fails);
+  (b) **off-screen re-push** — if the target's visible fraction is below
+  `FrameSettle.OffScreenWriteBelow` (0.05) and the result's visible
+  fraction is above `FrameSettle.RepushAbove` (0.02), write the position
+  once more and read back; that reading is the result (the previous one if
+  the write or read fails).
+  There is no further write. The adapter never judges the result: no
+  refusal detection, no retries beyond (a) and (b), no learning; a clamped
+  or ignored write simply returns the actual frame. Null means: key unknown
+  at the time the operation runs, the window vanished, access was denied
+  (e.g. elevated window), or the read-back failed. (Amended by #11, human
+  decision; supersedes the earlier "keep retries out of Win32" note.)
 - **B8 (target validation).** A target with any non-finite component
   (NaN/±∞) is not sent to the OS; that write completes with null and the
   window is unchanged. No other validation (zero/negative sizes are passed

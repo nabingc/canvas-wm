@@ -340,7 +340,7 @@ public sealed partial class DisplayEngine
         Rect known = m.Info.Frame;
         if (IsParkTarget(t) && m.Parked
             && ParkGeometry.RestsParked(known, t.Rect, Services.Windows.VisibleFraction(known))) return true;
-        if (known == t.Rect) return true;
+        if (Near(known, t.Rect, FrameWriting.SkipTolerance)) return true;
         if (s.Requested == t.Rect && s.WritesInFlight > 0) return true;
         return false;
     }

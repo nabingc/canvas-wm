@@ -590,7 +590,7 @@ Manual items use the probe tests from AC33.
   three. (Placement; A1)
 - **AC4** [mac] No policy in Win32. Each command below, run from the repo
   root, prints nothing:
-  - `rg -n "ClassifierPolicy|WindowClassifier|TrackerOptions|WindowTracker|IgnoreReason|TrackedFate|WindowKey|ExcludedApps|MinimumSize" src/CanvasWm.Win32`
+  - `rg -n "ClassifierPolicy|WindowClassifier|TrackerOptions|WindowTracker|IgnoreReason|TrackedFate|ExcludedApps|MinimumSize" src/CanvasWm.Win32` (`WindowKey` dropped by #11 R3b: `Win32WindowSystem` implements `IWindowSystem`)
   - `rg -nP "(?<![\w.])(120|80|0\.05|0\.4|3\.0|0\.3|0\.6)(?![\w.])" src/CanvasWm.Win32 -g "*.cs"`
   - `rg -n "System\.Threading\.Timer|PeriodicTimer|Task\.Delay|Thread\.Sleep|Stopwatch|DispatcherTimer|SetTimer" src/CanvasWm.Win32`
 
@@ -720,7 +720,9 @@ Manual items use the probe tests from AC33.
 - **AC15** [windows] Public surface by reflection over the `CanvasWm.Win32`
   assembly:
   - the public types are exactly `Win32WindowSource`, `HandleConversion`,
-    `DipSpace` and `PixelRect`;
+    `DipSpace` and `PixelRect`, plus the three added by #11 (see
+    specs/win32-frame-writer.md AC12: `Win32WindowSystem`,
+    `IManagedWindowMap`, `ManagedWindowIdentity`) — #11 R3c;
   - `Win32WindowSource` implements `IWindowSource` and `IDisposable`;
   - no type in the assembly has a field, property, method parameter or
     return type from `CanvasWm.Engine.Tracking` or of type
@@ -1090,3 +1092,9 @@ Count:
 | AC4 | Part 2 K ("no thresholds, no exclusion logic, no temporary/permanent decision"); orchestrator scope |
 | AC6 | CLAUDE.md clean-room boundary |
 | J1–J2 (key format) | Not here: key stays in the tracker (`KeyFor`); HandleConversion only (AC7) |
+
+## Amendments from #11 (win32-frame-writer, R3)
+
+- C1: `DipSpace` gains `ToPixels` and a point `ToDip` (additive).
+- AC4: `WindowKey` removed from the first pattern; AC15: public type list grows to seven.
+- `NativeMethods` user32 doc reworded (C2); `FactGatherer` frame reading moves to `WindowGeometry.ReadDipFrame` with no behaviour change (C4).

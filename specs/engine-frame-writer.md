@@ -315,8 +315,13 @@ Notation:
      `Park` or `ParkWithPicture`, `Window(k).Parked` is true, and
      `ParkGeometry.RestsParked(known, T.Rect,
      Services.Windows.VisibleFraction(known))` is true.
-  3. **Known frame equals target.** `known == T.Rect`, exactly on all four
-     components → skip.
+  3. **Known frame matches target.** `|known.c − T.Rect.c| ≤
+     FrameWriting.SkipTolerance` (1.0) for every c ∈ {X, Y, Width, Height},
+     using the existing `Near` helper → skip. (Amended by #11 R2, human
+     decision: read-backs at fractional scaling differ by up to 0.5/s per
+     edge, so an exact compare never skipped. New AC: known
+     (725,35,705,422.6) with target `Tile(725,35,705,423)` → no write; known
+     (725,35,705,421.9) → write.)
   4. **Same target in flight.** `Requested == T.Rect` exactly and
      `WritesInFlight > 0` → skip.
   5. Otherwise **write**. This applies even when another write for the window

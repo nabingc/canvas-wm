@@ -55,4 +55,14 @@ internal static class NativeConstants
     internal const uint EVENT_OBJECT_NAMECHANGE = 0x800C;
     internal const uint EVENT_OBJECT_CLOAKED = 0x8017;
     internal const uint EVENT_OBJECT_UNCLOAKED = 0x8018;
+
+    internal const uint SWP_NOSIZE = 0x0001;
+    internal const uint SWP_NOZORDER = 0x0004;
+    internal const uint SWP_NOACTIVATE = 0x0010;
+    internal const uint SWP_NOOWNERZORDER = 0x0200;
+    internal const int SW_SHOWNOACTIVATE = 4;
+    internal const int SW_RESTORE = 9;
+    internal const int SM_SWAPBUTTON = 23;
+    internal const int VK_LBUTTON = 0x01;
+    internal const int VK_RBUTTON = 0x02;
 }

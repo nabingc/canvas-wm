@@ -15,6 +15,8 @@ internal static class FrameWriting
     public const double RefusalScreenFactor = 0.8;
     /// <summary>Retarget is "unchanged" when every component differs by at most this.</summary>
     public const double RetargetTolerance = 1.0;
+    /// <summary>Known frame matches a target (skip) when every component differs by at most this, DIPs.</summary>
+    public const double SkipTolerance = 1.0;
     /// <summary>Drift check logs a tile whose frame moved by more than this on any component.</summary>
     public const double DriftTileLogThreshold = 4.0;
     /// <summary>Settle delay = Policy.CoverFade + this, seconds.</summary>

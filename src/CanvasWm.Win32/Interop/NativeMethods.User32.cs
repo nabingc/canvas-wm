@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace CanvasWm.Win32.Interop;
 
-/// <summary>user32 entry points. No entry point that sends a window message is declared.</summary>
+/// <summary>user32 entry points. Fact gathering and events use none that send a window message; frame writing and focus (#11) do.</summary>
 internal static unsafe partial class NativeMethods
 {
     private const string User32 = "user32.dll";
@@ -40,6 +40,12 @@ internal static unsafe partial class NativeMethods
     [LibraryImport(User32)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool IsIconic(nint hWnd);
+
+    /// <summary>Maximised state; used by the frame writer (#11) to restore before writing,
+    /// not by fact gathering (full screen ignores it, #10 A18).</summary>
+    [LibraryImport(User32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IsZoomed(nint hWnd);
 
     [LibraryImport(User32)]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -82,4 +88,47 @@ internal static unsafe partial class NativeMethods
     [LibraryImport(User32, SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool UnhookWinEvent(nint hWinEventHook);
+
+    [LibraryImport(User32, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+    [LibraryImport(User32, SetLastError = true)]
+    internal static partial nint BeginDeferWindowPos(int nNumWindows);
+
+    [LibraryImport(User32, SetLastError = true)]
+    internal static partial nint DeferWindowPos(nint hWinPosInfo, nint hWnd, nint hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+
+    [LibraryImport(User32, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EndDeferWindowPos(nint hWinPosInfo);
+
+    [LibraryImport(User32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ShowWindow(nint hWnd, int nCmdShow);
+
+    [LibraryImport(User32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetForegroundWindow(nint hWnd);
+
+    [LibraryImport(User32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EnumDisplayMonitors(
+        nint hdc,
+        NativeRect* lprcClip,
+        delegate* unmanaged<nint, nint, NativeRect*, nint, int> lpfnEnum,
+        nint dwData);
+
+    [LibraryImport(User32)]
+    internal static partial nint MonitorFromPoint(NativePoint pt, uint dwFlags);
+
+    [LibraryImport(User32, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetCursorPos(out NativePoint lpPoint);
+
+    [LibraryImport(User32)]
+    internal static partial short GetAsyncKeyState(int vKey);
+
+    [LibraryImport(User32)]
+    internal static partial int GetSystemMetrics(int nIndex);
 }

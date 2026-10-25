@@ -139,45 +139,11 @@ internal sealed unsafe class FactGatherer
 
     private static void ReadGeometry(nint h, bool hasCaption, out Rect? frame, out bool fullScreen)
     {
-        frame = null;
         fullScreen = false;
-
-        bool haveWindowRect = NativeMethods.GetWindowRect(h, out NativeRect windowRect);
-
-        PixelRect? physical = null;
-        if (NativeMethods.DwmGetWindowAttributeRect(h, NativeConstants.DWMWA_EXTENDED_FRAME_BOUNDS, out NativeRect dwm, (uint)sizeof(NativeRect)) == 0)
+        if (WindowGeometry.Read(h, out PixelRect? windowRect, out PixelRect monitor, out frame)
+            && windowRect is { } wr)
         {
-            physical = dwm.ToPixelRect();
-        }
-        else if (haveWindowRect)
-        {
-            physical = windowRect.ToPixelRect();
-        }
-
-        nint hm = NativeMethods.MonitorFromWindow(h, NativeConstants.MONITOR_DEFAULTTONEAREST);
-        if (hm == 0)
-        {
-            return;
-        }
-
-        var mi = new NativeMonitorInfo { cbSize = (uint)sizeof(NativeMonitorInfo) };
-        if (!NativeMethods.GetMonitorInfoW(hm, ref mi))
-        {
-            return;
-        }
-
-        PixelRect monitor = mi.rcMonitor.ToPixelRect();
-        if (haveWindowRect)
-        {
-            fullScreen = FactMapping.IsFullScreen(windowRect.ToPixelRect(), monitor, hasCaption);
-        }
-
-        // SPEC-ASSUMPTION A8: anchor-preserving per-monitor DIP mapping using the monitor's effective DPI.
-        if (physical is { } p
-            && NativeMethods.GetDpiForMonitor(hm, NativeConstants.MDT_EFFECTIVE_DPI, out uint dpiX, out _) == 0
-            && dpiX != 0)
-        {
-            frame = DipSpace.ToDip(p, monitor, dpiX);
+            fullScreen = FactMapping.IsFullScreen(wr, monitor, hasCaption);
         }
     }
 

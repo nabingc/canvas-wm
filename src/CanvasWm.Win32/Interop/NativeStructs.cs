@@ -33,3 +33,11 @@ internal unsafe struct NativeTitleBarInfo
     internal NativeRect rcTitleBar;
     internal fixed uint rgstate[6];
 }
+
+/// <summary>Win32 POINT.</summary>
+[StructLayout(LayoutKind.Sequential)]
+internal struct NativePoint
+{
+    internal int X;
+    internal int Y;
+}
