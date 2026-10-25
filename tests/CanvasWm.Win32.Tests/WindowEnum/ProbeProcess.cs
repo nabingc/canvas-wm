@@ -9,7 +9,8 @@ namespace CanvasWm.Win32.Tests.WindowEnumSpec;
 /// Commands: "title X", "fixed", "child", "focus", "hang".
 /// "focus" clears the active control first: the text box already has focus at start-up, so
 /// re-focusing it alone raises no focus event. "hang" busy-waits: Start-Sleep on the STA UI
-/// thread pumps messages, so Windows never reports the window as hung.</summary>
+/// thread pumps messages, so Windows never reports the window as hung. "fixed" drops the maximize
+/// box before the sizing border, because AC26 starts asserting as soon as it sees !IsResizable.</summary>
 internal sealed class ProbeProcess : IDisposable
 {
     private const string Script = """
@@ -36,7 +37,7 @@ $script:t.Add_Tick({
     $line = (Get-Content -Path $file.FullName -Raw).Trim()
     Remove-Item -Path $file.FullName -Force
     if ($line.StartsWith('title ')) { $script:f.Text = $line.Substring(6) }
-    elseif ($line -eq 'fixed') { $script:f.FormBorderStyle = 'FixedDialog'; $script:f.MaximizeBox = $false }
+    elseif ($line -eq 'fixed') { $script:f.MaximizeBox = $false; $script:f.FormBorderStyle = 'FixedDialog' }
     elseif ($line -eq 'child') {
       $c = New-Object System.Windows.Forms.Label
       $c.Text = 'child'

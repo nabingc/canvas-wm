@@ -32,30 +32,30 @@ ones (AC14-AC25) do not need a desktop; AC26-AC31 do.
 
 ## Automated acceptance criteria (tick when the test passes)
 
-- [ ] AC8  `DipSpace.ToPixels` (PureHelperTests.AC8_*)
-- [ ] AC9  round trips and shared edges (PureHelperTests.AC9_*)
-- [ ] AC10 point `ToDip` (PureHelperTests.AC10_*)
-- [ ] AC11 `FrameMath` (PureHelperTests.AC11_*)
-- [ ] AC12 public surface via reflection (PureHelperTests.AC12_*)
-- [ ] AC13 `Describe(h).Frame == WindowGeometry.ReadDipFrame(h)` (PureHelperTests.AC13_*) and the whole #10 suite passes
-- [ ] AC14 single write W1 (AlgorithmTests.AC14_*)
-- [ ] AC15 settle pass (AlgorithmTests.AC15_*, 4 tests)
-- [ ] AC16 off-screen re-push (AlgorithmTests.AC16_*, 4 tests)
-- [ ] AC17 batch and W4 fallback (AlgorithmTests.AC17_*)
-- [ ] AC18 pre-filter W5, null identity, no monitors (AlgorithmTests.AC18_*)
-- [ ] AC19 maximised restore order (AlgorithmTests.AC19_*)
-- [ ] AC20 crossing DPI W3 (AlgorithmTests.AC20_*)
-- [ ] AC21 exception containment (AlgorithmTests.AC21_*)
-- [ ] AC22 threading contract and argument checks (SystemContractTests.AC22_*)
-- [ ] AC23 disposal and completion errors (SystemContractTests.AC23_*)
-- [ ] AC24 queries (SystemContractTests.AC24_*)
-- [ ] AC25 focus with fakes (SystemContractTests.AC25_*)
-- [ ] AC26 in-process window write/read/insets (RealWindowTests.AC26_*)
-- [ ] AC27 maximised window restored, foreground unchanged (RealWindowTests.AC27_*)
-- [ ] AC28 probe + self batch, z-order, IsShowing (RealWindowTests.AC28_*)
-- [ ] AC29 hung probe does not block (RealWindowTests.AC29_*; takes about 25 s)
-- [ ] AC30 dead handle / wrong thread id (RealWindowTests.AC30_*)
-- [ ] AC31 pointer, buttons, displays (RealWindowTests.AC31_*; moves the cursor)
+- [x] AC8  `DipSpace.ToPixels` (PureHelperTests.AC8_*)
+- [x] AC9  round trips and shared edges (PureHelperTests.AC9_*)
+- [x] AC10 point `ToDip` (PureHelperTests.AC10_*)
+- [x] AC11 `FrameMath` (PureHelperTests.AC11_*)
+- [x] AC12 public surface via reflection (PureHelperTests.AC12_*)
+- [x] AC13 `Describe(h).Frame == WindowGeometry.ReadDipFrame(h)` (PureHelperTests.AC13_*) and the whole #10 suite passes
+- [x] AC14 single write W1 (AlgorithmTests.AC14_*)
+- [x] AC15 settle pass (AlgorithmTests.AC15_*, 4 tests)
+- [x] AC16 off-screen re-push (AlgorithmTests.AC16_*, 4 tests)
+- [x] AC17 batch and W4 fallback (AlgorithmTests.AC17_*)
+- [x] AC18 pre-filter W5, null identity, no monitors (AlgorithmTests.AC18_*)
+- [x] AC19 maximised restore order (AlgorithmTests.AC19_*)
+- [x] AC20 crossing DPI W3 (AlgorithmTests.AC20_*)
+- [x] AC21 exception containment (AlgorithmTests.AC21_*)
+- [x] AC22 threading contract and argument checks (SystemContractTests.AC22_*)
+- [x] AC23 disposal and completion errors (SystemContractTests.AC23_*)
+- [x] AC24 queries (SystemContractTests.AC24_*)
+- [x] AC25 focus with fakes (SystemContractTests.AC25_*)
+- [x] AC26 in-process window write/read/insets (RealWindowTests.AC26_*)
+- [x] AC27 maximised window restored, foreground unchanged (RealWindowTests.AC27_*)
+- [x] AC28 probe + self batch, z-order, IsShowing (RealWindowTests.AC28_*)
+- [x] AC29 hung probe does not block (RealWindowTests.AC29_*; takes about 25 s)
+- [x] AC30 dead handle / wrong thread id (RealWindowTests.AC30_*)
+- [x] AC31 pointer, buttons, displays (RealWindowTests.AC31_*; moves the cursor)
 
 ## Manual probes
 
@@ -70,37 +70,67 @@ variable unset and click the window during the 5 s countdown printed to the cons
 `%TEMP%\canvaswm-writes.tsv` (header row, one row per write: target, result, milliseconds, note). Each
 probe overwrites the file; copy it out before the next run.
 
-- [ ] AC32 `MoveAcross`. Monitor 1 at 100 %, monitor 2 at 150 %. Pick Notepad on monitor 1. The probe writes
+- [x] AC32 `MoveAcross`. Monitor 1 at 100 %, monitor 2 at 150 %. Pick Notepad on monitor 1. The probe writes
   it to the centre half of the other monitor and back. Expect: each result within 1.0 DIP of its target
   (the test asserts this); the visible border sits where requested (Snipping Tool, within 2 px); TSV
   recorded (whether the settle pass ran is not printed; compare the first row result with the target: a
   difference over 1.0 before the second reading is not visible, so just note the result). Repeat with Edge or Chrome.
-- [ ] AC33 `TileLeftHalf`. Maximise Notepad, click another window, run the probe with Notepad's title.
+- [x] AC33 `TileLeftHalf`. Maximise Notepad, click another window, run the probe with Notepad's title.
   Expect: Notepad restored (not maximised), fills the left half with its visible border at the work-area
   edge and no gap at the screen edge; the other window stays foreground; double-clicking Notepad's title bar
   maximises it again.
-- [ ] AC34 elevated window. From a non-elevated terminal start `regedit` (accept UAC) and run `TileLeftHalf`
+- [x] AC34 elevated window. From a non-elevated terminal start `regedit` (accept UAC) and run `TileLeftHalf`
   with title "Registry Editor". Expect: TSV result is `null`, regedit does not move, no exception. Repeat from
   an elevated terminal: result non-null.
 - [ ] AC35 `WriteLoop` (two Notepads alternate every second for 30 s; set `CANVASWM_TITLE` and `CANVASWM_TITLE2`
   and `CANVASWM_HANG=1` to also run a hung probe). Expect: Notepad rows continue on schedule (Ms small,
   rows about one second apart) for the whole run; probe rows become `null` after about 5 s.
-- [ ] AC36 `ParkAndWait` (writes the window to the bottom-right park spot of the primary monitor: default
+
+  **Result (2026-10-25): left unticked, hit the known A2 limit. Human decision: #11 marked done;
+  this criterion moves to #31 (frame-writer watchdog), which must make it pass.** Notepad++ and Windows
+  Notepad, 150 % monitor, `CANVASWM_HANG=1`. The probe was sent `hang` (a real 15 s busy loop
+  since the #10 probe fix; the old `Start-Sleep` never hung) and was written about 40 ms later,
+  before `IsHungAppWindow` could flag it. That one write blocked the writer thread for 14 982 ms,
+  so both Notepad rows stopped for 15 s (gap 15 017 ms), then the loop caught up with all
+  remaining rows in about 0.1 s instead of one per second. The probe never returned `null`
+  (it was answering again by the time it was flagged). All 60 Notepad writes landed on target
+  (max 29 ms when not blocked). AC29 passes because it waits about 6 s before writing, so the
+  pre-filter catches the hung window. A write that reaches a window in its first 5 s of hanging
+  is not protected; that is what #31 (watchdog) must cover. Possible input for #31:
+  `SWP_ASYNCWINDOWPOS` for cross-process targets avoids the wait (human decision, not tried).
+- [x] AC36 `ParkAndWait` (writes the window to the bottom-right park spot of the primary monitor: default
   fallback origin with the window size; the `ParkFrame` helper is not used by the probe). Expect: result
   within 1.0 of the target; after 60 s the read gives the same frame (the test asserts equality); only a
   sliver of at most 2 px visible at the corner (look at it); target pixels within +-30000. Repeat at 150 %.
   Record whether the re-push ran (the window not being fully hidden on the first try suggests it did).
-- [ ] AC37 `FocusHotkey`. The probe registers Ctrl+Shift+F12 and waits 20 s. Click a terminal so another process
+
+  **Result (2026-10-25), primary at 150 %:** Notepad++ target (1705.67, 1065.67, 853.33x1018.67),
+  result and 60 s read both (1706, 1066, same size), 0.33 DIP off (one physical pixel at 1.5x),
+  6 ms. Visible frame read 8 s after the write: 2559,1599 to 3839,3127 on a 2560x1600 monitor, so
+  a 1x1 px sliver. Fully hidden on the first try, so no sign the re-push ran. Restored afterwards.
+  Repeated with the primary at 100 %: target = result = 60 s read = (2559, 1599, 853x1019), 14 ms,
+  1x1 px sliver, no re-push needed. Both pass.
+- [x] AC37 `FocusHotkey`. The probe registers Ctrl+Shift+F12 and waits 20 s. Click a terminal so another process
   is foreground, then press the hotkey. Expect: Notepad becomes the foreground window, TSV note shows
   `LastFocusSucceeded=True;IsForeground=True`, the taskbar button does not flash. Repeat with Notepad minimised
   (it restores and gets focus). Record the result. If it fails, see "if something fails".
-- [ ] AC38 probe tool sanity. With `CANVASWM_MANUAL` unset run
+
+  **Result (2026-10-25):** Notepad++ target, VS Code foreground. Normal: `LastFocusSucceeded=True;
+  IsForeground=True`, no taskbar flash. Minimised: restored where it was (top monitor) and
+  `LastFocusSucceeded=True;IsForeground=True`. The plain SetForegroundWindow path was enough;
+  no workaround needed.
+- [x] AC38 probe tool sanity. With `CANVASWM_MANUAL` unset run
   `dotnet test tests/CanvasWm.Win32.Tests --filter "FullyQualifiedName~FrameWriterManual"`: all six pass in
   under 1 s each and no `canvaswm-writes.tsv` is touched. With it set each probe writes the header row first.
-- [ ] AC39 `RepeatTile` (125 % scaling; run only if R2 is approved and implemented, otherwise record "R2 pending").
+- [x] AC39 `RepeatTile` (125 % scaling; run only if R2 is approved and implemented, otherwise record "R2 pending").
   Three windows (`CANVASWM_TITLE`, `_TITLE2`, `_TITLE3`) get the same three tile targets three times, with a
   read between. Expect: every result and read within 1.0 DIP of the target (asserted); TSV differences at
   most 0.4 DIP on X/Y and 0.8 on W/H for apps that do not clamp. (R2 is implemented in the Engine now, so run it.)
+
+  **Result (2026-10-25), primary at 125 %:** Notepad++ (w0), two Windows Notepads (w1, w2), three
+  passes. w1 and w2: read equals target exactly on every pass. w0: X/Y/H exact, W +0.80 DIP (one
+  physical pixel at 1.25x) on every pass, identical each time, so no drift. First pass 15-42 ms per
+  write, later passes 0-1 ms (already at target). AC38 second half: every probe wrote the header first.
 
 ## If something fails
 

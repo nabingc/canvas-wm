@@ -259,12 +259,16 @@ public sealed class PureHelperTests
     {
         Assembly asm = typeof(Win32WindowSource).Assembly;
         string[] names = asm.GetExportedTypes().Select(t => t.FullName!).OrderBy(n => n, StringComparer.Ordinal).ToArray();
+        // Seven types since #11 (win32-frame-writer spec, earlier-spec change (c)).
         string[] expected =
         [
             "CanvasWm.Win32.Coordinates.DipSpace",
             "CanvasWm.Win32.Coordinates.PixelRect",
             "CanvasWm.Win32.Windows.HandleConversion",
+            "CanvasWm.Win32.Windows.IManagedWindowMap",
+            "CanvasWm.Win32.Windows.ManagedWindowIdentity",
             "CanvasWm.Win32.Windows.Win32WindowSource",
+            "CanvasWm.Win32.Windows.Win32WindowSystem",
         ];
         Assert.Equal(expected, names);
         Assert.True(typeof(IWindowSource).IsAssignableFrom(typeof(Win32WindowSource)));

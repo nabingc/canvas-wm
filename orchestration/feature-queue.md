@@ -25,7 +25,7 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 8 | tuning-constants | `Feel`-equivalent settings record with documented defaults | §3.1 | Core | 0 | done |
 | 9 | engine-interfaces | IWindowSystem/IClock/ICapture/IRenderer/ILimitStore/IDisplayStore + value types + fakes for tests (no IHotkeys) | §1, §5 | Engine | 0 | done |
 | 10 | win32-window-enum | Win32 IWindowSource: EnumWindows + fact gathering (DWM cloak/extended frame, DPI, process/AUMID, hang-safe title), SetWinEventHook events; no policy | §5, findings/win32-window-enum.md | Win32 | 9, 30 | done |
-| 11 | win32-frame-writer | Batched DeferWindowPos, DWM border compensation, read-back + drift correction (refusal detection/retry is Engine policy, see specs/engine-interfaces.md B7) | §4, §5 | Win32 | 9 | awaiting-windows |
+| 11 | win32-frame-writer | Batched DeferWindowPos, DWM border compensation, read-back + drift correction (refusal detection/retry is Engine policy, see specs/engine-interfaces.md B7) | §4, §5 | Win32 | 9 | done |
 | 12 | win32-hotkeys | RegisterHotKey binding from shortcut-model | §3.2 | Win32 | 7, 9 | pending |
 | 13 | engine-tiling-loop | Umbrella — split into #25 engine-projection-targets, #26 engine-frame-writer, #27 engine-window-events (findings/engine-tiling-loop.md) | §2, §6 | Engine | 25, 26, 27 | done |
 | 14 | win32-parking | Off-screen parking + crash-safe restore journal | §3.0 | Win32 | 6, 11 | pending |
@@ -45,7 +45,7 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 28 | collapsed-groups | Collapse tile groups narrower/shorter than 120 while framed; collapsed panels' rects, parking with pictures | §6, findings/engine-projection-targets.md | Core | 25 | pending |
 | 29 | app-composition | App/Win32 wiring: one DisplayEngine per display (+ desktop id), WinEvent and hotkey sources → engine calls, frame tick loop, file-backed ILimitStore/IDisplayStore, tray + quit (releaseAll); tracker DisplayFrames built with DipSpace.ToDip(M, M, dpi); map tracker FocusLeftWindows (no DisplayEngine method yet); IManagedWindowMap needs handle/pid/tid per key — add WindowTracker.IdentityOf or an App-side map (#11 R4) | §1, §5, findings/engine-inbound-api.md | App/Win32 | 10, 11, 12, 27, 30 | pending |
 | 30 | window-tracker | Core WindowFacts + WindowClassifier (manage/dockable, 120×80, exclusions, temporary vs permanent removal); Engine IWindowSource seam + fake and WindowTracker (tracked set, focus dedupe, dockable upgrade, 0.05/0.4 s rechecks, 3 s rescan, admission check) emitting inbound engine calls | §5, findings/win32-window-enum.md | Core/Engine | 9, 23, 27 | done |
-| 31 | frame-writer-watchdog | Timeout/recovery for the single Win32 writer thread when a window hangs mid-write (#11 A2) | findings/win32-frame-writer.md | Win32 | 11 | pending |
+| 31 | frame-writer-watchdog | Timeout/recovery for the single Win32 writer thread when a window hangs mid-write (#11 A2). Seen on Windows: #11 AC35, one write to a freshly hung window blocked the writer 15 s (windows-verification/win32-frame-writer.md AC35) | findings/win32-frame-writer.md | Win32 | 11 | pending |
 
 Open research items (not yet features): `trelliswm://` commands,
 scroll-zoom modifier. (Private connection property resolved in `findings/engine-interfaces.md`.) (Park-small factor resolved in `findings/park-geometry.md`.)
