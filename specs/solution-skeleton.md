@@ -243,3 +243,7 @@ Count: 10 [mac] (AC1–AC10), 3 [windows] (AC11–AC13).
 | A6 | Rules 5, 6 |
 | A7 | Rule 4, Data model seam table, Windows notes (capture) |
 | AC12 | Rule 8; Windows notes |
+
+## Amendments from #33 (app-host)
+
+- A5 resolved: the App uses WinForms (`UseWindowsForms`, `app.manifest` with PerMonitorV2) and hosts the running application; `Program.Main` no longer just returns 0. B13/AC13 apply to the skeleton build only.

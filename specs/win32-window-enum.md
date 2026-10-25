@@ -1103,3 +1103,7 @@ Count:
 
 - AC15's exact public type list also gains `CanvasWm.Win32.Hotkeys.Win32HotkeySource` and `CanvasWm.Win32.Hotkeys.Win32KeyInput`.
 - B1's entry-point list covers fact gathering and events; #12 adds hotkey entry points under the same LibraryImport style rules. No change to #10 behaviour.
+
+## Amendments from #33 (app-host)
+
+- The exact public Win32 type list also accepts the six #33 types (see specs/app-host.md); the PureHelperTests type lists are updated in #33.

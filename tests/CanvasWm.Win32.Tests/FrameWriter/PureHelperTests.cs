@@ -118,6 +118,7 @@ public sealed class PureHelperTests
             nameof(Win32WindowSource), nameof(HandleConversion), nameof(DipSpace), nameof(PixelRect),
             nameof(Win32WindowSystem), nameof(IManagedWindowMap), nameof(ManagedWindowIdentity),
             nameof(Win32HotkeySource), nameof(Win32KeyInput),
+            "Win32HostWindow", "HostNotification", "DwmComposition", "HighResolutionTimer", "Win32Displays", "DirectoryTextStore",
         };
         Assert.Equal(expected.OrderBy(x => x), asm.GetExportedTypes().Select(t => t.Name).OrderBy(x => x));
         Assert.True(typeof(IWindowSystem).IsAssignableFrom(typeof(Win32WindowSystem)));

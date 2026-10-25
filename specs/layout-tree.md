@@ -656,3 +656,7 @@ Count: 38 [mac] (AC1–AC38), 0 [windows].
 | A14 | Unknown "where sanitize is invoked" |
 | A15 | Unknown "window key format" |
 | AC38 | CLAUDE.md architecture; specs/solution-skeleton.md B5 |
+
+## Amendments from #33 (app-host)
+
+- A2: the "left to the store" cases (missing split/panel ids, unknown kind or axis) are now rejected by the store's codec — the document is treated as corrupt (see specs/app-host.md).

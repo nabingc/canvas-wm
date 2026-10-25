@@ -87,4 +87,29 @@ internal static class NativeConstants
     internal const int VK_MENU = 0x12;
     internal const int VK_LWIN = 0x5B;
     internal const int VK_RWIN = 0x5C;
+
+    // Host window, pump, displays, timers (#33).
+    internal const uint WS_POPUP = 0x80000000;
+    internal const uint WM_CLOSE = 0x0010;
+    internal const uint WM_QUIT = 0x0012;
+    internal const uint WM_QUERYENDSESSION = 0x0011;
+    internal const uint WM_ENDSESSION = 0x0016;
+    internal const uint WM_SETTINGCHANGE = 0x001A;
+    internal const uint WM_DISPLAYCHANGE = 0x007E;
+    internal const uint WM_POWERBROADCAST = 0x0218;
+    internal const uint WM_DPICHANGED = 0x02E0;
+    internal const uint WM_APP = 0x8000;
+    internal const nint PBT_APMRESUMEAUTOMATIC = 0x12;
+    internal const uint MSGFLT_ALLOW = 1;
+    internal const uint QS_ALLINPUT = 0x04FF;
+    internal const uint MWMO_INPUTAVAILABLE = 0x0004;
+    internal const uint PM_REMOVE = 0x0001;
+    internal const uint MONITORINFOF_PRIMARY = 0x1;
+    internal const uint QDC_ONLY_ACTIVE_PATHS = 0x2;
+    internal const int DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME = 1;
+    internal const int DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME = 2;
+    internal const uint CREATE_WAITABLE_TIMER_HIGH_RESOLUTION = 0x2;
+    internal const uint TIMER_ALL_ACCESS = 0x1F0003;
+    internal const uint INFINITE = 0xFFFFFFFF;
+    internal const uint WAIT_OBJECT_0 = 0;
 }

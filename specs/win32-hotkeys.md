@@ -1204,3 +1204,7 @@ Probe groups:
 | Notes for #16 | D7 |
 | A15 | Part 1 rule 9 |
 | D10 (foreground rights) | No item needed; #11 AC37 already passed |
+
+## Amendments from #33 (app-host)
+
+- The exact public Win32 type list also accepts the six #33 types (see specs/app-host.md); the PureHelperTests type lists are updated in #33.

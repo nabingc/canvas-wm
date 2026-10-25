@@ -2,6 +2,11 @@
   <PropertyGroup>
     <TargetFramework>net10.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <!-- SPEC-ASSUMPTION A14: DPI is declared in the manifest and in ApplicationHighDpiMode; the analyzers that object (WFAC010, and WFO0003 which is what the compiler reports for it) are suppressed here only. -->
+    <NoWarn>$(NoWarn);WFAC010;WFO0003</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CanvasWm.Core\CanvasWm.Core.csproj" />

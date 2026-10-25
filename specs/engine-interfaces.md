@@ -876,3 +876,7 @@ B5–B10, B13, B16–B22 is verified on Windows in #10, #11 and #14.
 | B22, B29, AC5, AC25, A16 | 6, 38 |
 | B23–B25, B28, AC14–AC23 | worked examples (fakes) |
 | AC26–AC28 | CLAUDE.md architecture; solution-skeleton B6, B11, AC7; 39–40 (no input seam), 43 (gate excluded) |
+
+## Amendments from #33 (app-host)
+
+- B15/A10: the statement "Engine contains no JSON code" is superseded. Pure JSON codecs for `SavedDisplay` and limits live in `CanvasWm.Engine.Persistence` (string in/out); all file I/O stays behind `ITextFileStore`, implemented outside Engine. The nested JSON shapes are fixed in specs/app-host.md.

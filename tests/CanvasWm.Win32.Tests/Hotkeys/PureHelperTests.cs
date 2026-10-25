@@ -321,10 +321,10 @@ public sealed class PureHelperTests
     {
         Assembly asm = typeof(Win32HotkeySource).Assembly;
         string[] names = asm.GetExportedTypes().Select(t => t.FullName!).OrderBy(n => n, StringComparer.Ordinal).ToArray();
-        Assert.Equal(9, names.Length);
+        Assert.Equal(15, names.Length);
         Assert.Contains("CanvasWm.Win32.Hotkeys.Win32HotkeySource", names);
         Assert.Contains("CanvasWm.Win32.Hotkeys.Win32KeyInput", names);
-        Assert.Equal(7, names.Count(n => !n.StartsWith("CanvasWm.Win32.Hotkeys.", StringComparison.Ordinal)));
+        Assert.Equal(13, names.Count(n => !n.StartsWith("CanvasWm.Win32.Hotkeys.", StringComparison.Ordinal)));
 
         Type src = typeof(Win32HotkeySource);
         Assert.True(typeof(IDisposable).IsAssignableFrom(src));

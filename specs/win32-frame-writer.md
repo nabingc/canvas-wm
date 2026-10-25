@@ -1245,3 +1245,11 @@ These are for the orchestrator to apply. This spec does not change them.
 ## Amendments from #12 (win32-hotkeys, R2)
 
 - AC12's exact public type list also gains `CanvasWm.Win32.Hotkeys.Win32HotkeySource` and `CanvasWm.Win32.Hotkeys.Win32KeyInput`.
+
+## Amendments from #32 (engine-router)
+
+- R4 resolved: `WindowTracker.IdentityOf` / `KeyOf` supply handle, pid and thread id per managed key; #33 builds `IManagedWindowMap` from them.
+
+## Amendments from #33 (app-host)
+
+- The exact public Win32 type list also accepts the six #33 types (see specs/app-host.md); the PureHelperTests type lists are updated in #33.
