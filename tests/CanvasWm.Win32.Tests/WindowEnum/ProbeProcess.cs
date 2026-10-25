@@ -6,7 +6,10 @@ namespace CanvasWm.Win32.Tests.WindowEnumSpec;
 /// <summary>An out-of-process WinForms window hosted by Windows PowerShell (A20). Commands are
 /// passed through a command directory polled every 50 ms by the probe's UI thread (not stdin:
 /// a UI thread cannot block on stdin, and PowerShell has no cheap background reader).
-/// Commands: "title X", "fixed", "child", "focus", "hang".</summary>
+/// Commands: "title X", "fixed", "child", "focus", "hang".
+/// "focus" clears the active control first: the text box already has focus at start-up, so
+/// re-focusing it alone raises no focus event. "hang" busy-waits: Start-Sleep on the STA UI
+/// thread pumps messages, so Windows never reports the window as hung.</summary>
 internal sealed class ProbeProcess : IDisposable
 {
     private const string Script = """
@@ -45,8 +48,8 @@ $script:t.Add_Tick({
       $c.Left = $c.Left + 20
       $c.Top = $c.Top + 20
     }
-    elseif ($line -eq 'focus') { $script:f.Activate(); $null = $script:tb.Focus() }
-    elseif ($line -eq 'hang') { Start-Sleep -Seconds 15 }
+    elseif ($line -eq 'focus') { $script:f.Activate(); $script:f.ActiveControl = $null; $null = $script:tb.Focus() }
+    elseif ($line -eq 'hang') { $e = [DateTime]::UtcNow.AddSeconds(15); while ([DateTime]::UtcNow -lt $e) { } }
   }
 })
 $script:t.Start()

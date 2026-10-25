@@ -164,7 +164,7 @@ internal static class FactMapping
     internal static CloakKind ToCloakKind(bool readOk, uint cloaked);               // B7
     internal static bool? MaximizeButtonEnabled(bool readOk, uint maxButtonState);  // B8
     internal static bool IsFullScreen(PixelRect window, PixelRect monitor,
-                                      bool hasCaption, bool isZoomed);              // B9
+                                      bool hasCaption);                             // B9
     internal static bool IsShellClass(string className);                            // B6
     internal static string NormalizeAppId(string raw);                              // B11
     internal static bool IsAccessible(bool isOwnProcess, int? targetIntegrityRid,
@@ -214,7 +214,7 @@ internal sealed class EventPump
   The entry points used, and only these for fact gathering and events, are:
   - user32: `EnumWindows`, `IsWindow`, `GetAncestor`, `GetWindow`,
     `GetWindowLongPtrW`, `GetClassNameW`, `InternalGetWindowText`,
-    `GetWindowThreadProcessId`, `IsWindowVisible`, `IsIconic`, `IsZoomed`,
+    `GetWindowThreadProcessId`, `IsWindowVisible`, `IsIconic`,
     `IsHungAppWindow`, `GetWindowRect`, `GetTitleBarInfo`, `GetShellWindow`,
     `FindWindowExW`, `MonitorFromWindow`, `GetMonitorInfoW`,
     `SetThreadDpiAwarenessContext`, `SetWinEventHook`, `UnhookWinEvent`;
@@ -334,14 +334,14 @@ internal sealed class EventPump
   - else → true.
 
   A6 explains why `GetSystemMenu` is not used.
-- **B9 (full screen).** `IsFullScreen(w, m, hasCaption, isZoomed)` is
-  `!isZoomed && !hasCaption && w.Left <= m.Left && w.Top <= m.Top &&
+- **B9 (full screen).** `IsFullScreen(w, m, hasCaption)` is
+  `!hasCaption && w.Left <= m.Left && w.Top <= m.Top &&
   w.Right >= m.Right && w.Bottom >= m.Bottom`. The inputs are:
   - `w` = `GetWindowRect(h)` in physical pixels, under the B10.1 scope;
-  - `m` = `rcMonitor` of `MonitorFromWindow(h, MONITOR_DEFAULTTONEAREST)`;
-  - `isZoomed = IsZoomed(h)`.
+  - `m` = `rcMonitor` of `MonitorFromWindow(h, MONITOR_DEFAULTTONEAREST)`.
 
-  A maximised window is therefore never full screen. If the window rect or
+  The zoomed (maximised) state is not an input (A18). A normal maximised
+  window has a caption, so it is not full screen. If the window rect or
   monitor cannot be read, the result is false. The comparison is exact on
   integers, with no tolerance.
 
@@ -657,7 +657,7 @@ Manual items use the probe tests from AC33.
   - w = m, no caption, not zoomed → true;
   - w = (−8,−8,1928,1088), no caption → true (covers);
   - w = m, with caption → false;
-  - w = m, zoomed → false;
+  - w = (−8,−8,1936,1056), with caption (normal maximised) → false;
   - w = (0,0,1920,1040) → false;
   - w = (1,0,1920,1080) → false.
 
@@ -930,7 +930,8 @@ AC33 provides the probe tool that the manual steps use:
   - click the desktop → a Foreground row whose handle is the Progman or
     WorkerW window (DumpFacts: `IsShellWindow = true`, `OwnsDesktop = true`);
   - press F11 in Edge or Chrome, then run DumpFacts → that window has
-    `IsFullScreen = true`. After leaving F11 and maximising it,
+    `IsFullScreen = true`, both when F11 is pressed from a restored window
+    and from a maximised one. After leaving F11 and maximising it,
     `IsFullScreen = false`;
   - minimise, restore and close a Notepad → Minimized, Restored, then
     Destroyed for its handle.
@@ -1036,9 +1037,16 @@ Count:
 - **A17. Exceptions inside the native callback are swallowed** and the event
   is dropped. Letting them through would terminate the process. No logging
   seam exists yet.
-- **A18. Full screen means "covers its monitor"**, not exact equality, and
-  is never true for a zoomed window. Some games and players size slightly
-  past the monitor.
+- **A18. Full screen means "covers its monitor" with no caption**, not
+  exact equality. Some games and players size slightly past the monitor.
+  The zoomed state is deliberately ignored. Revised 2026-10-25 after Windows
+  verification: Chrome in F11 entered from a maximised window keeps
+  `WS_MAXIMIZE` (`IsZoomed` true) while having no caption and a rect equal
+  to `rcMonitor`, so the earlier "never for a zoomed window" rule reported
+  it as not full screen. A normal maximised Chrome has `WS_CAPTION` and stops
+  at the work area, so the caption test alone excludes it. Accepted edge
+  case: a captionless app maximised over an auto-hide taskbar counts as full
+  screen.
 - **A19. `IsShellWindow` also includes `GetShellWindow()` by handle**, which
   is normally Progman anyway.
 - **A20. Out-of-process test window via Windows PowerShell + WinForms.** It
@@ -1055,7 +1063,7 @@ Count:
   monitor choice for off-screen DIP rects.
 - **`OsWindowFacts.IsFullScreen` doc** (window-tracker spec) says "frame
   equals its monitor's full rect". This adapter uses "window rect covers the
-  monitor, no caption, not zoomed" (A18). The Core doc wording could be
+  monitor, no caption" (A18). The Core doc wording could be
   relaxed. No code change is required.
 - **UWP pid sharing** (A4) affects tracker focus de-duplication per pid.
   Acceptable for now. Revisit if focus reports for two UWP apps are

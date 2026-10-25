@@ -75,9 +75,7 @@ internal sealed unsafe class FactGatherer
 
         bool maxRead = ReadMaxButtonState(h, out uint maxState);
         bool cloakRead = NativeMethods.DwmGetWindowAttribute(h, NativeConstants.DWMWA_CLOAKED, out uint cloaked, sizeof(uint)) == 0;
-        bool isZoomed = NativeMethods.IsZoomed(h);
-
-        ReadGeometry(h, styles.HasCaption, isZoomed, out Rect? frame, out bool fullScreen);
+        ReadGeometry(h, styles.HasCaption, out Rect? frame, out bool fullScreen);
 
         return new OsWindowFacts
         {
@@ -139,7 +137,7 @@ internal sealed unsafe class FactGatherer
         return false;
     }
 
-    private static void ReadGeometry(nint h, bool hasCaption, bool isZoomed, out Rect? frame, out bool fullScreen)
+    private static void ReadGeometry(nint h, bool hasCaption, out Rect? frame, out bool fullScreen)
     {
         frame = null;
         fullScreen = false;
@@ -171,7 +169,7 @@ internal sealed unsafe class FactGatherer
         PixelRect monitor = mi.rcMonitor.ToPixelRect();
         if (haveWindowRect)
         {
-            fullScreen = FactMapping.IsFullScreen(windowRect.ToPixelRect(), monitor, hasCaption, isZoomed);
+            fullScreen = FactMapping.IsFullScreen(windowRect.ToPixelRect(), monitor, hasCaption);
         }
 
         // SPEC-ASSUMPTION A8: anchor-preserving per-monitor DIP mapping using the monitor's effective DPI.

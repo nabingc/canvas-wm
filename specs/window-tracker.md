@@ -1145,8 +1145,9 @@ Count: **30 [mac]** (AC1–AC30), **0 [windows]**.
   - `IsVisible`: `IsWindowVisible`;
   - `Cloak`: `DWMWA_CLOAKED`;
   - `IsMinimized`: `IsIconic`;
-  - `IsFullScreen`: the frame equals `rcMonitor` and the window has no
-    caption. A maximised window is not full screen;
+  - `IsFullScreen`: the window rect covers `rcMonitor` and the window has no
+    caption. A normal maximised window has a caption and is not full screen
+    (win32-window-enum A18);
   - `IsHung`: `IsHungAppWindow`;
   - `IsAccessible`: whether UIPI allows the move, based on integrity levels;
   - `Frame`: `DWMWA_EXTENDED_FRAME_BOUNDS` (falling back to

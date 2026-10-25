@@ -59,11 +59,12 @@ internal static class FactMapping
         return (maxButtonState & NativeConstants.STATE_SYSTEM_UNAVAILABLE) == 0;
     }
 
-    /// <summary>B9: the window covers its monitor, has no caption and is not maximised.</summary>
-    internal static bool IsFullScreen(PixelRect window, PixelRect monitor, bool hasCaption, bool isZoomed)
+    /// <summary>B9: the window covers its monitor and has no caption.</summary>
+    internal static bool IsFullScreen(PixelRect window, PixelRect monitor, bool hasCaption)
     {
-        // SPEC-ASSUMPTION A18: full screen means "covers its monitor", never for a zoomed window.
-        return !isZoomed && !hasCaption
+        // SPEC-ASSUMPTION A18: full screen means "covers its monitor" with no caption; the zoomed
+        // state is ignored because browsers keep WS_MAXIMIZE in F11 entered from a maximised window.
+        return !hasCaption
             && window.Left <= monitor.Left && window.Top <= monitor.Top
             && window.Right >= monitor.Right && window.Bottom >= monitor.Bottom;
     }

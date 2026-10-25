@@ -43,10 +43,6 @@ internal static unsafe partial class NativeMethods
 
     [LibraryImport(User32)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    internal static partial bool IsZoomed(nint hWnd);
-
-    [LibraryImport(User32)]
-    [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool IsHungAppWindow(nint hWnd);
 
     [LibraryImport(User32, SetLastError = true)]

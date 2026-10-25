@@ -38,8 +38,9 @@ internal sealed class MessageLoopThread : IDisposable
             try { tcs.SetResult(f()); }
             catch (Exception ex) { tcs.SetException(ex); }
         });
-        Assert.True(tcs.Task.Wait(TimeSpan.FromSeconds(20)), "loop invoke timed out");
-        return tcs.Task.Result;
+        // Wait on the handle, not Task.Wait/Result, so a thrown exception surfaces unwrapped.
+        Assert.True(((IAsyncResult)tcs.Task).AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(20)), "loop invoke timed out");
+        return tcs.Task.GetAwaiter().GetResult();
     }
 
     internal void Invoke(Action a) => Invoke<int>(() => { a(); return 0; });

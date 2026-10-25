@@ -24,7 +24,7 @@ Statuses: `pending → analyzing → specced → building → testing → awaiti
 | 7 | shortcut-model | 12 actions + saved views, configurable bindings, Windows default mapping (AltGr-safe option) | §3.2 | Core | 0 | done |
 | 8 | tuning-constants | `Feel`-equivalent settings record with documented defaults | §3.1 | Core | 0 | done |
 | 9 | engine-interfaces | IWindowSystem/IClock/ICapture/IRenderer/ILimitStore/IDisplayStore + value types + fakes for tests (no IHotkeys) | §1, §5 | Engine | 0 | done |
-| 10 | win32-window-enum | Win32 IWindowSource: EnumWindows + fact gathering (DWM cloak/extended frame, DPI, process/AUMID, hang-safe title), SetWinEventHook events; no policy | §5, findings/win32-window-enum.md | Win32 | 9, 30 | awaiting-windows |
+| 10 | win32-window-enum | Win32 IWindowSource: EnumWindows + fact gathering (DWM cloak/extended frame, DPI, process/AUMID, hang-safe title), SetWinEventHook events; no policy | §5, findings/win32-window-enum.md | Win32 | 9, 30 | done |
 | 11 | win32-frame-writer | Batched DeferWindowPos, DWM border compensation, read-back + drift correction (refusal detection/retry is Engine policy, see specs/engine-interfaces.md B7) | §4, §5 | Win32 | 9 | pending |
 | 12 | win32-hotkeys | RegisterHotKey binding from shortcut-model | §3.2 | Win32 | 7, 9 | pending |
 | 13 | engine-tiling-loop | Umbrella — split into #25 engine-projection-targets, #26 engine-frame-writer, #27 engine-window-events (findings/engine-tiling-loop.md) | §2, §6 | Engine | 25, 26, 27 | done |

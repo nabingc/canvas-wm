@@ -142,12 +142,13 @@ public sealed class PureHelperTests
     public void AC11_IsFullScreen()
     {
         var m = new PixelRect(0, 0, 1920, 1080);
-        Assert.True(FactMapping.IsFullScreen(m, m, false, false));
-        Assert.True(FactMapping.IsFullScreen(new PixelRect(-8, -8, 1928, 1088), m, false, false));
-        Assert.False(FactMapping.IsFullScreen(m, m, true, false));
-        Assert.False(FactMapping.IsFullScreen(m, m, false, true));
-        Assert.False(FactMapping.IsFullScreen(new PixelRect(0, 0, 1920, 1040), m, false, false));
-        Assert.False(FactMapping.IsFullScreen(new PixelRect(1, 0, 1920, 1080), m, false, false));
+        Assert.True(FactMapping.IsFullScreen(m, m, false));
+        Assert.True(FactMapping.IsFullScreen(new PixelRect(-8, -8, 1928, 1088), m, false));
+        Assert.False(FactMapping.IsFullScreen(m, m, true));
+        // Normal maximised window: caption, borders overhang, bottom stops at the taskbar.
+        Assert.False(FactMapping.IsFullScreen(new PixelRect(-8, -8, 1936, 1056), m, true));
+        Assert.False(FactMapping.IsFullScreen(new PixelRect(0, 0, 1920, 1040), m, false));
+        Assert.False(FactMapping.IsFullScreen(new PixelRect(1, 0, 1920, 1080), m, false));
     }
 
     [Fact]
